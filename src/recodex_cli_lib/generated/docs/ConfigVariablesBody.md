@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **runtime_environment_id** | **str** | Environment identifier | [optional] 
-**pipelines_ids** | **list[object]** | Identifiers of selected pipelines for one test | [optional] 
+**pipelines_ids** | **list[object]** | Identifiers of selected pipelines for one test | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

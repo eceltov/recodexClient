@@ -60,12 +60,9 @@ class GroupsGroupIdBody(object):
             self.to_admins = to_admins
         if to_observers is not None:
             self.to_observers = to_observers
-        if to_me is not None:
-            self.to_me = to_me
-        if subject is not None:
-            self.subject = subject
-        if message is not None:
-            self.message = message
+        self.to_me = to_me
+        self.subject = subject
+        self.message = message
 
     @property
     def to_supervisors(self):
@@ -156,6 +153,8 @@ class GroupsGroupIdBody(object):
         :param to_me: The to_me of this GroupsGroupIdBody.  # noqa: E501
         :type: bool
         """
+        if to_me is None:
+            raise ValueError("Invalid value for `to_me`, must not be `None`")  # noqa: E501
 
         self._to_me = to_me
 
@@ -179,6 +178,8 @@ class GroupsGroupIdBody(object):
         :param subject: The subject of this GroupsGroupIdBody.  # noqa: E501
         :type: str
         """
+        if subject is None:
+            raise ValueError("Invalid value for `subject`, must not be `None`")  # noqa: E501
 
         self._subject = subject
 
@@ -202,6 +203,8 @@ class GroupsGroupIdBody(object):
         :param message: The message of this GroupsGroupIdBody.  # noqa: E501
         :type: str
         """
+        if message is None:
+            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
 

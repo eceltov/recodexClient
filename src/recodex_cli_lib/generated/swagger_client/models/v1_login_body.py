@@ -42,10 +42,8 @@ class V1LoginBody(object):
         self._username = None
         self._password = None
         self.discriminator = None
-        if username is not None:
-            self.username = username
-        if password is not None:
-            self.password = password
+        self.username = username
+        self.password = password
 
     @property
     def username(self):
@@ -67,6 +65,8 @@ class V1LoginBody(object):
         :param username: The username of this V1LoginBody.  # noqa: E501
         :type: str
         """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
 
         self._username = username
 
@@ -90,6 +90,8 @@ class V1LoginBody(object):
         :param password: The password of this V1LoginBody.  # noqa: E501
         :type: str
         """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
 
         self._password = password
 

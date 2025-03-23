@@ -102,42 +102,27 @@ class ExerciseassignmentsIdBody(object):
         self._send_notification = None
         self._is_exam = None
         self.discriminator = None
-        if version is not None:
-            self.version = version
-        if is_public is not None:
-            self.is_public = is_public
-        if localized_texts is not None:
-            self.localized_texts = localized_texts
-        if first_deadline is not None:
-            self.first_deadline = first_deadline
-        if max_points_before_first_deadline is not None:
-            self.max_points_before_first_deadline = max_points_before_first_deadline
-        if submissions_count_limit is not None:
-            self.submissions_count_limit = submissions_count_limit
-        if solution_files_limit is not None:
-            self.solution_files_limit = solution_files_limit
-        if solution_size_limit is not None:
-            self.solution_size_limit = solution_size_limit
-        if allow_second_deadline is not None:
-            self.allow_second_deadline = allow_second_deadline
+        self.version = version
+        self.is_public = is_public
+        self.localized_texts = localized_texts
+        self.first_deadline = first_deadline
+        self.max_points_before_first_deadline = max_points_before_first_deadline
+        self.submissions_count_limit = submissions_count_limit
+        self.solution_files_limit = solution_files_limit
+        self.solution_size_limit = solution_size_limit
+        self.allow_second_deadline = allow_second_deadline
         if visible_from is not None:
             self.visible_from = visible_from
-        if can_view_limit_ratios is not None:
-            self.can_view_limit_ratios = can_view_limit_ratios
-        if can_view_measured_values is not None:
-            self.can_view_measured_values = can_view_measured_values
-        if can_view_judge_stdout is not None:
-            self.can_view_judge_stdout = can_view_judge_stdout
-        if can_view_judge_stderr is not None:
-            self.can_view_judge_stderr = can_view_judge_stderr
+        self.can_view_limit_ratios = can_view_limit_ratios
+        self.can_view_measured_values = can_view_measured_values
+        self.can_view_judge_stdout = can_view_judge_stdout
+        self.can_view_judge_stderr = can_view_judge_stderr
         if second_deadline is not None:
             self.second_deadline = second_deadline
         if max_points_before_second_deadline is not None:
             self.max_points_before_second_deadline = max_points_before_second_deadline
-        if max_points_deadline_interpolation is not None:
-            self.max_points_deadline_interpolation = max_points_deadline_interpolation
-        if is_bonus is not None:
-            self.is_bonus = is_bonus
+        self.max_points_deadline_interpolation = max_points_deadline_interpolation
+        self.is_bonus = is_bonus
         if points_percentual_threshold is not None:
             self.points_percentual_threshold = points_percentual_threshold
         if disabled_runtime_environment_ids is not None:
@@ -167,6 +152,8 @@ class ExerciseassignmentsIdBody(object):
         :param version: The version of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -190,6 +177,8 @@ class ExerciseassignmentsIdBody(object):
         :param is_public: The is_public of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if is_public is None:
+            raise ValueError("Invalid value for `is_public`, must not be `None`")  # noqa: E501
 
         self._is_public = is_public
 
@@ -213,6 +202,8 @@ class ExerciseassignmentsIdBody(object):
         :param localized_texts: The localized_texts of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: list[object]
         """
+        if localized_texts is None:
+            raise ValueError("Invalid value for `localized_texts`, must not be `None`")  # noqa: E501
 
         self._localized_texts = localized_texts
 
@@ -236,6 +227,8 @@ class ExerciseassignmentsIdBody(object):
         :param first_deadline: The first_deadline of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if first_deadline is None:
+            raise ValueError("Invalid value for `first_deadline`, must not be `None`")  # noqa: E501
 
         self._first_deadline = first_deadline
 
@@ -259,6 +252,8 @@ class ExerciseassignmentsIdBody(object):
         :param max_points_before_first_deadline: The max_points_before_first_deadline of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if max_points_before_first_deadline is None:
+            raise ValueError("Invalid value for `max_points_before_first_deadline`, must not be `None`")  # noqa: E501
 
         self._max_points_before_first_deadline = max_points_before_first_deadline
 
@@ -282,6 +277,8 @@ class ExerciseassignmentsIdBody(object):
         :param submissions_count_limit: The submissions_count_limit of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if submissions_count_limit is None:
+            raise ValueError("Invalid value for `submissions_count_limit`, must not be `None`")  # noqa: E501
 
         self._submissions_count_limit = submissions_count_limit
 
@@ -305,6 +302,8 @@ class ExerciseassignmentsIdBody(object):
         :param solution_files_limit: The solution_files_limit of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if solution_files_limit is None:
+            raise ValueError("Invalid value for `solution_files_limit`, must not be `None`")  # noqa: E501
 
         self._solution_files_limit = solution_files_limit
 
@@ -328,6 +327,8 @@ class ExerciseassignmentsIdBody(object):
         :param solution_size_limit: The solution_size_limit of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if solution_size_limit is None:
+            raise ValueError("Invalid value for `solution_size_limit`, must not be `None`")  # noqa: E501
 
         self._solution_size_limit = solution_size_limit
 
@@ -351,6 +352,8 @@ class ExerciseassignmentsIdBody(object):
         :param allow_second_deadline: The allow_second_deadline of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if allow_second_deadline is None:
+            raise ValueError("Invalid value for `allow_second_deadline`, must not be `None`")  # noqa: E501
 
         self._allow_second_deadline = allow_second_deadline
 
@@ -397,6 +400,8 @@ class ExerciseassignmentsIdBody(object):
         :param can_view_limit_ratios: The can_view_limit_ratios of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if can_view_limit_ratios is None:
+            raise ValueError("Invalid value for `can_view_limit_ratios`, must not be `None`")  # noqa: E501
 
         self._can_view_limit_ratios = can_view_limit_ratios
 
@@ -420,6 +425,8 @@ class ExerciseassignmentsIdBody(object):
         :param can_view_measured_values: The can_view_measured_values of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if can_view_measured_values is None:
+            raise ValueError("Invalid value for `can_view_measured_values`, must not be `None`")  # noqa: E501
 
         self._can_view_measured_values = can_view_measured_values
 
@@ -443,6 +450,8 @@ class ExerciseassignmentsIdBody(object):
         :param can_view_judge_stdout: The can_view_judge_stdout of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if can_view_judge_stdout is None:
+            raise ValueError("Invalid value for `can_view_judge_stdout`, must not be `None`")  # noqa: E501
 
         self._can_view_judge_stdout = can_view_judge_stdout
 
@@ -466,6 +475,8 @@ class ExerciseassignmentsIdBody(object):
         :param can_view_judge_stderr: The can_view_judge_stderr of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if can_view_judge_stderr is None:
+            raise ValueError("Invalid value for `can_view_judge_stderr`, must not be `None`")  # noqa: E501
 
         self._can_view_judge_stderr = can_view_judge_stderr
 
@@ -535,6 +546,8 @@ class ExerciseassignmentsIdBody(object):
         :param max_points_deadline_interpolation: The max_points_deadline_interpolation of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if max_points_deadline_interpolation is None:
+            raise ValueError("Invalid value for `max_points_deadline_interpolation`, must not be `None`")  # noqa: E501
 
         self._max_points_deadline_interpolation = max_points_deadline_interpolation
 
@@ -558,6 +571,8 @@ class ExerciseassignmentsIdBody(object):
         :param is_bonus: The is_bonus of this ExerciseassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if is_bonus is None:
+            raise ValueError("Invalid value for `is_bonus`, must not be `None`")  # noqa: E501
 
         self._is_bonus = is_bonus
 

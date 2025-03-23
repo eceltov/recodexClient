@@ -42,8 +42,7 @@ class CommentsIdBody(object):
         self._text = None
         self._is_private = None
         self.discriminator = None
-        if text is not None:
-            self.text = text
+        self.text = text
         if is_private is not None:
             self.is_private = is_private
 
@@ -67,6 +66,8 @@ class CommentsIdBody(object):
         :param text: The text of this CommentsIdBody.  # noqa: E501
         :type: str
         """
+        if text is None:
+            raise ValueError("Invalid value for `text`, must not be `None`")  # noqa: E501
 
         self._text = text
 

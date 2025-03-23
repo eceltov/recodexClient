@@ -72,8 +72,7 @@ class V1GroupsBody(object):
         self._points_limit = None
         self._no_admin = None
         self.discriminator = None
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.instance_id = instance_id
         if external_id is not None:
             self.external_id = external_id
         if parent_group_id is not None:
@@ -117,6 +116,8 @@ class V1GroupsBody(object):
         :param instance_id: The instance_id of this V1GroupsBody.  # noqa: E501
         :type: str
         """
+        if instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

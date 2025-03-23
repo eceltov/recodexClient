@@ -54,18 +54,12 @@ class V1NotificationsBody(object):
         self._type = None
         self._localized_texts = None
         self.discriminator = None
-        if groups_ids is not None:
-            self.groups_ids = groups_ids
-        if visible_from is not None:
-            self.visible_from = visible_from
-        if visible_to is not None:
-            self.visible_to = visible_to
-        if role is not None:
-            self.role = role
-        if type is not None:
-            self.type = type
-        if localized_texts is not None:
-            self.localized_texts = localized_texts
+        self.groups_ids = groups_ids
+        self.visible_from = visible_from
+        self.visible_to = visible_to
+        self.role = role
+        self.type = type
+        self.localized_texts = localized_texts
 
     @property
     def groups_ids(self):
@@ -87,6 +81,8 @@ class V1NotificationsBody(object):
         :param groups_ids: The groups_ids of this V1NotificationsBody.  # noqa: E501
         :type: list[object]
         """
+        if groups_ids is None:
+            raise ValueError("Invalid value for `groups_ids`, must not be `None`")  # noqa: E501
 
         self._groups_ids = groups_ids
 
@@ -110,6 +106,8 @@ class V1NotificationsBody(object):
         :param visible_from: The visible_from of this V1NotificationsBody.  # noqa: E501
         :type: int
         """
+        if visible_from is None:
+            raise ValueError("Invalid value for `visible_from`, must not be `None`")  # noqa: E501
 
         self._visible_from = visible_from
 
@@ -133,6 +131,8 @@ class V1NotificationsBody(object):
         :param visible_to: The visible_to of this V1NotificationsBody.  # noqa: E501
         :type: int
         """
+        if visible_to is None:
+            raise ValueError("Invalid value for `visible_to`, must not be `None`")  # noqa: E501
 
         self._visible_to = visible_to
 
@@ -156,6 +156,8 @@ class V1NotificationsBody(object):
         :param role: The role of this V1NotificationsBody.  # noqa: E501
         :type: str
         """
+        if role is None:
+            raise ValueError("Invalid value for `role`, must not be `None`")  # noqa: E501
 
         self._role = role
 
@@ -179,6 +181,8 @@ class V1NotificationsBody(object):
         :param type: The type of this V1NotificationsBody.  # noqa: E501
         :type: str
         """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
 
@@ -202,6 +206,8 @@ class V1NotificationsBody(object):
         :param localized_texts: The localized_texts of this V1NotificationsBody.  # noqa: E501
         :type: list[object]
         """
+        if localized_texts is None:
+            raise ValueError("Invalid value for `localized_texts`, must not be `None`")  # noqa: E501
 
         self._localized_texts = localized_texts
 

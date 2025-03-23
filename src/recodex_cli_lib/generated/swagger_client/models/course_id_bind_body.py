@@ -39,8 +39,7 @@ class CourseIdBindBody(object):
         """CourseIdBindBody - a model defined in Swagger"""  # noqa: E501
         self._group_id = None
         self.discriminator = None
-        if group_id is not None:
-            self.group_id = group_id
+        self.group_id = group_id
 
     @property
     def group_id(self):
@@ -60,6 +59,8 @@ class CourseIdBindBody(object):
         :param group_id: The group_id of this CourseIdBindBody.  # noqa: E501
         :type: str
         """
+        if group_id is None:
+            raise ValueError("Invalid value for `group_id`, must not be `None`")  # noqa: E501
 
         self._group_id = group_id
 

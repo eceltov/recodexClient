@@ -39,8 +39,7 @@ class IdHardwaregroupsBody(object):
         """IdHardwaregroupsBody - a model defined in Swagger"""  # noqa: E501
         self._hw_groups = None
         self.discriminator = None
-        if hw_groups is not None:
-            self.hw_groups = hw_groups
+        self.hw_groups = hw_groups
 
     @property
     def hw_groups(self):
@@ -62,6 +61,8 @@ class IdHardwaregroupsBody(object):
         :param hw_groups: The hw_groups of this IdHardwaregroupsBody.  # noqa: E501
         :type: list[object]
         """
+        if hw_groups is None:
+            raise ValueError("Invalid value for `hw_groups`, must not be `None`")  # noqa: E501
 
         self._hw_groups = hw_groups
 

@@ -42,10 +42,8 @@ class IdLicencesBody(object):
         self._note = None
         self._valid_until = None
         self.discriminator = None
-        if note is not None:
-            self.note = note
-        if valid_until is not None:
-            self.valid_until = valid_until
+        self.note = note
+        self.valid_until = valid_until
 
     @property
     def note(self):
@@ -67,6 +65,8 @@ class IdLicencesBody(object):
         :param note: The note of this IdLicencesBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 
@@ -90,6 +90,8 @@ class IdLicencesBody(object):
         :param valid_until: The valid_until of this IdLicencesBody.  # noqa: E501
         :type: int
         """
+        if valid_until is None:
+            raise ValueError("Invalid value for `valid_until`, must not be `None`")  # noqa: E501
 
         self._valid_until = valid_until
 

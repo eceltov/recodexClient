@@ -42,10 +42,8 @@ class SecurityCheckBody(object):
         self._url = None
         self._method = None
         self.discriminator = None
-        if url is not None:
-            self.url = url
-        if method is not None:
-            self.method = method
+        self.url = url
+        self.method = method
 
     @property
     def url(self):
@@ -67,6 +65,8 @@ class SecurityCheckBody(object):
         :param url: The url of this SecurityCheckBody.  # noqa: E501
         :type: str
         """
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
 
@@ -90,6 +90,8 @@ class SecurityCheckBody(object):
         :param method: The method of this SecurityCheckBody.  # noqa: E501
         :type: str
         """
+        if method is None:
+            raise ValueError("Invalid value for `method`, must not be `None`")  # noqa: E501
 
         self._method = method
 

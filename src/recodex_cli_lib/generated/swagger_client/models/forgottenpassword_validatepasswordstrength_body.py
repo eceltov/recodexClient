@@ -39,8 +39,7 @@ class ForgottenpasswordValidatepasswordstrengthBody(object):
         """ForgottenpasswordValidatepasswordstrengthBody - a model defined in Swagger"""  # noqa: E501
         self._password = None
         self.discriminator = None
-        if password is not None:
-            self.password = password
+        self.password = password
 
     @property
     def password(self):
@@ -62,6 +61,8 @@ class ForgottenpasswordValidatepasswordstrengthBody(object):
         :param password: The password of this ForgottenpasswordValidatepasswordstrengthBody.  # noqa: E501
         :type: str
         """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
 
         self._password = password
 

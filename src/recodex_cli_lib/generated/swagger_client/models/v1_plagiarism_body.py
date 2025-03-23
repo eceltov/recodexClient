@@ -42,8 +42,7 @@ class V1PlagiarismBody(object):
         self._detection_tool = None
         self._detection_tool_params = None
         self.discriminator = None
-        if detection_tool is not None:
-            self.detection_tool = detection_tool
+        self.detection_tool = detection_tool
         if detection_tool_params is not None:
             self.detection_tool_params = detection_tool_params
 
@@ -67,6 +66,8 @@ class V1PlagiarismBody(object):
         :param detection_tool: The detection_tool of this V1PlagiarismBody.  # noqa: E501
         :type: str
         """
+        if detection_tool is None:
+            raise ValueError("Invalid value for `detection_tool`, must not be `None`")  # noqa: E501
 
         self._detection_tool = detection_tool
 

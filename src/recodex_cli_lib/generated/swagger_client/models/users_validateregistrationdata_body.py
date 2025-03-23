@@ -42,8 +42,7 @@ class UsersValidateregistrationdataBody(object):
         self._email = None
         self._password = None
         self.discriminator = None
-        if email is not None:
-            self.email = email
+        self.email = email
         if password is not None:
             self.password = password
 
@@ -67,6 +66,8 @@ class UsersValidateregistrationdataBody(object):
         :param email: The email of this UsersValidateregistrationdataBody.  # noqa: E501
         :type: str
         """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 

@@ -60,18 +60,12 @@ class V1UsersBody(object):
         self._titles_before_name = None
         self._titles_after_name = None
         self.discriminator = None
-        if email is not None:
-            self.email = email
-        if first_name is not None:
-            self.first_name = first_name
-        if last_name is not None:
-            self.last_name = last_name
-        if password is not None:
-            self.password = password
-        if password_confirm is not None:
-            self.password_confirm = password_confirm
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.password = password
+        self.password_confirm = password_confirm
+        self.instance_id = instance_id
         if titles_before_name is not None:
             self.titles_before_name = titles_before_name
         if titles_after_name is not None:
@@ -97,6 +91,8 @@ class V1UsersBody(object):
         :param email: The email of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 
@@ -120,6 +116,8 @@ class V1UsersBody(object):
         :param first_name: The first_name of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if first_name is None:
+            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
 
         self._first_name = first_name
 
@@ -143,6 +141,8 @@ class V1UsersBody(object):
         :param last_name: The last_name of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if last_name is None:
+            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
 
         self._last_name = last_name
 
@@ -166,6 +166,8 @@ class V1UsersBody(object):
         :param password: The password of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
 
         self._password = password
 
@@ -189,6 +191,8 @@ class V1UsersBody(object):
         :param password_confirm: The password_confirm of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if password_confirm is None:
+            raise ValueError("Invalid value for `password_confirm`, must not be `None`")  # noqa: E501
 
         self._password_confirm = password_confirm
 
@@ -212,6 +216,8 @@ class V1UsersBody(object):
         :param instance_id: The instance_id of this V1UsersBody.  # noqa: E501
         :type: str
         """
+        if instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

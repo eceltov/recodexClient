@@ -39,8 +39,7 @@ class ExternalloginServiceBody(object):
         """ExternalloginServiceBody - a model defined in Swagger"""  # noqa: E501
         self._external_id = None
         self.discriminator = None
-        if external_id is not None:
-            self.external_id = external_id
+        self.external_id = external_id
 
     @property
     def external_id(self):
@@ -60,6 +59,8 @@ class ExternalloginServiceBody(object):
         :param external_id: The external_id of this ExternalloginServiceBody.  # noqa: E501
         :type: str
         """
+        if external_id is None:
+            raise ValueError("Invalid value for `external_id`, must not be `None`")  # noqa: E501
 
         self._external_id = external_id
 

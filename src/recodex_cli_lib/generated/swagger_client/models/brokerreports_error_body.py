@@ -39,8 +39,7 @@ class BrokerreportsErrorBody(object):
         """BrokerreportsErrorBody - a model defined in Swagger"""  # noqa: E501
         self._message = None
         self.discriminator = None
-        if message is not None:
-            self.message = message
+        self.message = message
 
     @property
     def message(self):
@@ -62,6 +61,8 @@ class BrokerreportsErrorBody(object):
         :param message: The message of this BrokerreportsErrorBody.  # noqa: E501
         :type: str
         """
+        if message is None:
+            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
 

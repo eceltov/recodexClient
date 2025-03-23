@@ -39,8 +39,7 @@ class LoginAuthenticatorNameBody(object):
         """LoginAuthenticatorNameBody - a model defined in Swagger"""  # noqa: E501
         self._token = None
         self.discriminator = None
-        if token is not None:
-            self.token = token
+        self.token = token
 
     @property
     def token(self):
@@ -62,6 +61,8 @@ class LoginAuthenticatorNameBody(object):
         :param token: The token of this LoginAuthenticatorNameBody.  # noqa: E501
         :type: str
         """
+        if token is None:
+            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
 

@@ -39,8 +39,7 @@ class IdValidateBody2(object):
         """IdValidateBody2 - a model defined in Swagger"""  # noqa: E501
         self._version = None
         self.discriminator = None
-        if version is not None:
-            self.version = version
+        self.version = version
 
     @property
     def version(self):
@@ -62,6 +61,8 @@ class IdValidateBody2(object):
         :param version: The version of this IdValidateBody2.  # noqa: E501
         :type: int
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 

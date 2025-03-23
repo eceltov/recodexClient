@@ -42,10 +42,8 @@ class UploadedfilesPartialBody(object):
         self._name = None
         self._size = None
         self.discriminator = None
-        if name is not None:
-            self.name = name
-        if size is not None:
-            self.size = size
+        self.name = name
+        self.size = size
 
     @property
     def name(self):
@@ -67,6 +65,8 @@ class UploadedfilesPartialBody(object):
         :param name: The name of this UploadedfilesPartialBody.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -90,6 +90,8 @@ class UploadedfilesPartialBody(object):
         :param size: The size of this UploadedfilesPartialBody.  # noqa: E501
         :type: int
         """
+        if size is None:
+            raise ValueError("Invalid value for `size`, must not be `None`")  # noqa: E501
 
         self._size = size
 

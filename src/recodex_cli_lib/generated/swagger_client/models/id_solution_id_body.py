@@ -51,16 +51,12 @@ class IdSolutionIdBody(object):
         self._similarity = None
         self._files = None
         self.discriminator = None
-        if solution_file_id is not None:
-            self.solution_file_id = solution_file_id
+        self.solution_file_id = solution_file_id
         if file_entry is not None:
             self.file_entry = file_entry
-        if author_id is not None:
-            self.author_id = author_id
-        if similarity is not None:
-            self.similarity = similarity
-        if files is not None:
-            self.files = files
+        self.author_id = author_id
+        self.similarity = similarity
+        self.files = files
 
     @property
     def solution_file_id(self):
@@ -82,6 +78,8 @@ class IdSolutionIdBody(object):
         :param solution_file_id: The solution_file_id of this IdSolutionIdBody.  # noqa: E501
         :type: str
         """
+        if solution_file_id is None:
+            raise ValueError("Invalid value for `solution_file_id`, must not be `None`")  # noqa: E501
 
         self._solution_file_id = solution_file_id
 
@@ -128,6 +126,8 @@ class IdSolutionIdBody(object):
         :param author_id: The author_id of this IdSolutionIdBody.  # noqa: E501
         :type: str
         """
+        if author_id is None:
+            raise ValueError("Invalid value for `author_id`, must not be `None`")  # noqa: E501
 
         self._author_id = author_id
 
@@ -151,6 +151,8 @@ class IdSolutionIdBody(object):
         :param similarity: The similarity of this IdSolutionIdBody.  # noqa: E501
         :type: float
         """
+        if similarity is None:
+            raise ValueError("Invalid value for `similarity`, must not be `None`")  # noqa: E501
 
         self._similarity = similarity
 
@@ -174,6 +176,8 @@ class IdSolutionIdBody(object):
         :param files: The files of this IdSolutionIdBody.  # noqa: E501
         :type: list[object]
         """
+        if files is None:
+            raise ValueError("Invalid value for `files`, must not be `None`")  # noqa: E501
 
         self._files = files
 

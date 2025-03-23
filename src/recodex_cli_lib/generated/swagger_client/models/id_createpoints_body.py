@@ -48,12 +48,9 @@ class IdCreatepointsBody(object):
         self._note = None
         self._awarded_at = None
         self.discriminator = None
-        if user_id is not None:
-            self.user_id = user_id
-        if points is not None:
-            self.points = points
-        if note is not None:
-            self.note = note
+        self.user_id = user_id
+        self.points = points
+        self.note = note
         if awarded_at is not None:
             self.awarded_at = awarded_at
 
@@ -77,6 +74,8 @@ class IdCreatepointsBody(object):
         :param user_id: The user_id of this IdCreatepointsBody.  # noqa: E501
         :type: str
         """
+        if user_id is None:
+            raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501
 
         self._user_id = user_id
 
@@ -100,6 +99,8 @@ class IdCreatepointsBody(object):
         :param points: The points of this IdCreatepointsBody.  # noqa: E501
         :type: int
         """
+        if points is None:
+            raise ValueError("Invalid value for `points`, must not be `None`")  # noqa: E501
 
         self._points = points
 
@@ -123,6 +124,8 @@ class IdCreatepointsBody(object):
         :param note: The note of this IdCreatepointsBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 

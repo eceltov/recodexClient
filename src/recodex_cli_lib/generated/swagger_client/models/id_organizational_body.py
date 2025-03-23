@@ -39,8 +39,7 @@ class IdOrganizationalBody(object):
         """IdOrganizationalBody - a model defined in Swagger"""  # noqa: E501
         self._value = None
         self.discriminator = None
-        if value is not None:
-            self.value = value
+        self.value = value
 
     @property
     def value(self):
@@ -62,6 +61,8 @@ class IdOrganizationalBody(object):
         :param value: The value of this IdOrganizationalBody.  # noqa: E501
         :type: bool
         """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value
 

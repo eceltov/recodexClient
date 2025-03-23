@@ -47,8 +47,7 @@ class IdExamPeriodBody(object):
         self.discriminator = None
         if begin is not None:
             self.begin = begin
-        if end is not None:
-            self.end = end
+        self.end = end
         if strict is not None:
             self.strict = strict
 
@@ -95,6 +94,8 @@ class IdExamPeriodBody(object):
         :param end: The end of this IdExamPeriodBody.  # noqa: E501
         :type: int
         """
+        if end is None:
+            raise ValueError("Invalid value for `end`, must not be `None`")  # noqa: E501
 
         self._end = end
 

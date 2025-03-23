@@ -39,8 +39,7 @@ class IdRoleBody(object):
         """IdRoleBody - a model defined in Swagger"""  # noqa: E501
         self._role = None
         self.discriminator = None
-        if role is not None:
-            self.role = role
+        self.role = role
 
     @property
     def role(self):
@@ -62,6 +61,8 @@ class IdRoleBody(object):
         :param role: The role of this IdRoleBody.  # noqa: E501
         :type: str
         """
+        if role is None:
+            raise ValueError("Invalid value for `role`, must not be `None`")  # noqa: E501
 
         self._role = role
 

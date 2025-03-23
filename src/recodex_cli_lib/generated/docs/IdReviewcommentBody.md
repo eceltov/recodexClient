@@ -3,9 +3,9 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**text** | **str** | The comment itself. | [optional] 
-**file** | **str** | Identification of the file to which the comment is related to. | [optional] 
-**line** | **int** | Line in the designated file to which the comment is related to. | [optional] 
+**text** | **str** | The comment itself. | 
+**file** | **str** | Identification of the file to which the comment is related to. | 
+**line** | **int** | Line in the designated file to which the comment is related to. | 
 **issue** | **bool** | Whether the comment is an issue (expected to be resolved by the student) | [optional] 
 **suppress_notification** | **bool** | If true, no email notification will be sent (only applies when the review has been closed) | [optional] 
 

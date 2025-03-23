@@ -39,8 +39,7 @@ class CommentIdPrivateBody(object):
         """CommentIdPrivateBody - a model defined in Swagger"""  # noqa: E501
         self._is_private = None
         self.discriminator = None
-        if is_private is not None:
-            self.is_private = is_private
+        self.is_private = is_private
 
     @property
     def is_private(self):
@@ -62,6 +61,8 @@ class CommentIdPrivateBody(object):
         :param is_private: The is_private of this CommentIdPrivateBody.  # noqa: E501
         :type: bool
         """
+        if is_private is None:
+            raise ValueError("Invalid value for `is_private`, must not be `None`")  # noqa: E501
 
         self._is_private = is_private
 

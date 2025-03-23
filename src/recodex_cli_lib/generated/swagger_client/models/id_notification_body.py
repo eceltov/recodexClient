@@ -39,8 +39,7 @@ class IdNotificationBody(object):
         """IdNotificationBody - a model defined in Swagger"""  # noqa: E501
         self._message = None
         self.discriminator = None
-        if message is not None:
-            self.message = message
+        self.message = message
 
     @property
     def message(self):
@@ -62,6 +61,8 @@ class IdNotificationBody(object):
         :param message: The message of this IdNotificationBody.  # noqa: E501
         :type: str
         """
+        if message is None:
+            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
 

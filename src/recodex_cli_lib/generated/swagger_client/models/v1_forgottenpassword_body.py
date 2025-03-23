@@ -39,8 +39,7 @@ class V1ForgottenpasswordBody(object):
         """V1ForgottenpasswordBody - a model defined in Swagger"""  # noqa: E501
         self._username = None
         self.discriminator = None
-        if username is not None:
-            self.username = username
+        self.username = username
 
     @property
     def username(self):
@@ -62,6 +61,8 @@ class V1ForgottenpasswordBody(object):
         :param username: The username of this V1ForgottenpasswordBody.  # noqa: E501
         :type: str
         """
+        if username is None:
+            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
 
         self._username = username
 

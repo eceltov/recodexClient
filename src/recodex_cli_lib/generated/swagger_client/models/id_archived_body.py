@@ -39,8 +39,7 @@ class IdArchivedBody(object):
         """IdArchivedBody - a model defined in Swagger"""  # noqa: E501
         self._archived = None
         self.discriminator = None
-        if archived is not None:
-            self.archived = archived
+        self.archived = archived
 
     @property
     def archived(self):
@@ -62,6 +61,8 @@ class IdArchivedBody(object):
         :param archived: The archived of this IdArchivedBody.  # noqa: E501
         :type: bool
         """
+        if archived is None:
+            raise ValueError("Invalid value for `archived`, must not be `None`")  # noqa: E501
 
         self._archived = archived
 

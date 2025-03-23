@@ -42,8 +42,7 @@ class IdBonuspointsBody(object):
         self._bonus_points = None
         self._overridden_points = None
         self.discriminator = None
-        if bonus_points is not None:
-            self.bonus_points = bonus_points
+        self.bonus_points = bonus_points
         if overridden_points is not None:
             self.overridden_points = overridden_points
 
@@ -67,6 +66,8 @@ class IdBonuspointsBody(object):
         :param bonus_points: The bonus_points of this IdBonuspointsBody.  # noqa: E501
         :type: int
         """
+        if bonus_points is None:
+            raise ValueError("Invalid value for `bonus_points`, must not be `None`")  # noqa: E501
 
         self._bonus_points = bonus_points
 

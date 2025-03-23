@@ -42,10 +42,8 @@ class GroupinvitationsIdBody(object):
         self._expire_at = None
         self._note = None
         self.discriminator = None
-        if expire_at is not None:
-            self.expire_at = expire_at
-        if note is not None:
-            self.note = note
+        self.expire_at = expire_at
+        self.note = note
 
     @property
     def expire_at(self):
@@ -67,6 +65,8 @@ class GroupinvitationsIdBody(object):
         :param expire_at: The expire_at of this GroupinvitationsIdBody.  # noqa: E501
         :type: int
         """
+        if expire_at is None:
+            raise ValueError("Invalid value for `expire_at`, must not be `None`")  # noqa: E501
 
         self._expire_at = expire_at
 
@@ -90,6 +90,8 @@ class GroupinvitationsIdBody(object):
         :param note: The note of this GroupinvitationsIdBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 

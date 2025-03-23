@@ -51,12 +51,9 @@ class IdReviewcommentBody(object):
         self._issue = None
         self._suppress_notification = None
         self.discriminator = None
-        if text is not None:
-            self.text = text
-        if file is not None:
-            self.file = file
-        if line is not None:
-            self.line = line
+        self.text = text
+        self.file = file
+        self.line = line
         if issue is not None:
             self.issue = issue
         if suppress_notification is not None:
@@ -82,6 +79,8 @@ class IdReviewcommentBody(object):
         :param text: The text of this IdReviewcommentBody.  # noqa: E501
         :type: str
         """
+        if text is None:
+            raise ValueError("Invalid value for `text`, must not be `None`")  # noqa: E501
 
         self._text = text
 
@@ -105,6 +104,8 @@ class IdReviewcommentBody(object):
         :param file: The file of this IdReviewcommentBody.  # noqa: E501
         :type: str
         """
+        if file is None:
+            raise ValueError("Invalid value for `file`, must not be `None`")  # noqa: E501
 
         self._file = file
 
@@ -128,6 +129,8 @@ class IdReviewcommentBody(object):
         :param line: The line of this IdReviewcommentBody.  # noqa: E501
         :type: int
         """
+        if line is None:
+            raise ValueError("Invalid value for `line`, must not be `None`")  # noqa: E501
 
         self._line = line
 

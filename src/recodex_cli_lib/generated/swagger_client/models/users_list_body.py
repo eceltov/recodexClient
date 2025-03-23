@@ -39,8 +39,7 @@ class UsersListBody(object):
         """UsersListBody - a model defined in Swagger"""  # noqa: E501
         self._ids = None
         self.discriminator = None
-        if ids is not None:
-            self.ids = ids
+        self.ids = ids
 
     @property
     def ids(self):
@@ -62,6 +61,8 @@ class UsersListBody(object):
         :param ids: The ids of this UsersListBody.  # noqa: E501
         :type: list[object]
         """
+        if ids is None:
+            raise ValueError("Invalid value for `ids`, must not be `None`")  # noqa: E501
 
         self._ids = ids
 

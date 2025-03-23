@@ -42,10 +42,8 @@ class SisTermsBody(object):
         self._year = None
         self._term = None
         self.discriminator = None
-        if year is not None:
-            self.year = year
-        if term is not None:
-            self.term = term
+        self.year = year
+        self.term = term
 
     @property
     def year(self):
@@ -65,6 +63,8 @@ class SisTermsBody(object):
         :param year: The year of this SisTermsBody.  # noqa: E501
         :type: str
         """
+        if year is None:
+            raise ValueError("Invalid value for `year`, must not be `None`")  # noqa: E501
 
         self._year = year
 
@@ -86,6 +86,8 @@ class SisTermsBody(object):
         :param term: The term of this SisTermsBody.  # noqa: E501
         :type: str
         """
+        if term is None:
+            raise ValueError("Invalid value for `term`, must not be `None`")  # noqa: E501
 
         self._term = term
 

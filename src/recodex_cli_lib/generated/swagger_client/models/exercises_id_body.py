@@ -63,24 +63,18 @@ class ExercisesIdBody(object):
         self._solution_size_limit = None
         self._merge_judge_logs = None
         self.discriminator = None
-        if version is not None:
-            self.version = version
-        if difficulty is not None:
-            self.difficulty = difficulty
-        if localized_texts is not None:
-            self.localized_texts = localized_texts
+        self.version = version
+        self.difficulty = difficulty
+        self.localized_texts = localized_texts
         if is_public is not None:
             self.is_public = is_public
         if is_locked is not None:
             self.is_locked = is_locked
         if configuration_type is not None:
             self.configuration_type = configuration_type
-        if solution_files_limit is not None:
-            self.solution_files_limit = solution_files_limit
-        if solution_size_limit is not None:
-            self.solution_size_limit = solution_size_limit
-        if merge_judge_logs is not None:
-            self.merge_judge_logs = merge_judge_logs
+        self.solution_files_limit = solution_files_limit
+        self.solution_size_limit = solution_size_limit
+        self.merge_judge_logs = merge_judge_logs
 
     @property
     def version(self):
@@ -102,6 +96,8 @@ class ExercisesIdBody(object):
         :param version: The version of this ExercisesIdBody.  # noqa: E501
         :type: int
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -125,6 +121,8 @@ class ExercisesIdBody(object):
         :param difficulty: The difficulty of this ExercisesIdBody.  # noqa: E501
         :type: str
         """
+        if difficulty is None:
+            raise ValueError("Invalid value for `difficulty`, must not be `None`")  # noqa: E501
 
         self._difficulty = difficulty
 
@@ -148,6 +146,8 @@ class ExercisesIdBody(object):
         :param localized_texts: The localized_texts of this ExercisesIdBody.  # noqa: E501
         :type: list[object]
         """
+        if localized_texts is None:
+            raise ValueError("Invalid value for `localized_texts`, must not be `None`")  # noqa: E501
 
         self._localized_texts = localized_texts
 
@@ -240,6 +240,8 @@ class ExercisesIdBody(object):
         :param solution_files_limit: The solution_files_limit of this ExercisesIdBody.  # noqa: E501
         :type: int
         """
+        if solution_files_limit is None:
+            raise ValueError("Invalid value for `solution_files_limit`, must not be `None`")  # noqa: E501
 
         self._solution_files_limit = solution_files_limit
 
@@ -263,6 +265,8 @@ class ExercisesIdBody(object):
         :param solution_size_limit: The solution_size_limit of this ExercisesIdBody.  # noqa: E501
         :type: int
         """
+        if solution_size_limit is None:
+            raise ValueError("Invalid value for `solution_size_limit`, must not be `None`")  # noqa: E501
 
         self._solution_size_limit = solution_size_limit
 
@@ -286,6 +290,8 @@ class ExercisesIdBody(object):
         :param merge_judge_logs: The merge_judge_logs of this ExercisesIdBody.  # noqa: E501
         :type: bool
         """
+        if merge_judge_logs is None:
+            raise ValueError("Invalid value for `merge_judge_logs`, must not be `None`")  # noqa: E501
 
         self._merge_judge_logs = merge_judge_logs
 

@@ -1,5 +1,5 @@
 venv
-src/recodex-cli-lib/generated
+src/recodex_cli_lib/generated
 __pycache__
 dist
 *.egg-info

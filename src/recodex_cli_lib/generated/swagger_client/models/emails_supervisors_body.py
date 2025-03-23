@@ -42,10 +42,8 @@ class EmailsSupervisorsBody(object):
         self._subject = None
         self._message = None
         self.discriminator = None
-        if subject is not None:
-            self.subject = subject
-        if message is not None:
-            self.message = message
+        self.subject = subject
+        self.message = message
 
     @property
     def subject(self):
@@ -67,6 +65,8 @@ class EmailsSupervisorsBody(object):
         :param subject: The subject of this EmailsSupervisorsBody.  # noqa: E501
         :type: str
         """
+        if subject is None:
+            raise ValueError("Invalid value for `subject`, must not be `None`")  # noqa: E501
 
         self._subject = subject
 
@@ -90,6 +90,8 @@ class EmailsSupervisorsBody(object):
         :param message: The message of this EmailsSupervisorsBody.  # noqa: E501
         :type: str
         """
+        if message is None:
+            raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
 

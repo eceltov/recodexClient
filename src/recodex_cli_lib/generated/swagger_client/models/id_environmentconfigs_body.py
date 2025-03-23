@@ -39,8 +39,7 @@ class IdEnvironmentconfigsBody(object):
         """IdEnvironmentconfigsBody - a model defined in Swagger"""  # noqa: E501
         self._environment_configs = None
         self.discriminator = None
-        if environment_configs is not None:
-            self.environment_configs = environment_configs
+        self.environment_configs = environment_configs
 
     @property
     def environment_configs(self):
@@ -62,6 +61,8 @@ class IdEnvironmentconfigsBody(object):
         :param environment_configs: The environment_configs of this IdEnvironmentconfigsBody.  # noqa: E501
         :type: list[object]
         """
+        if environment_configs is None:
+            raise ValueError("Invalid value for `environment_configs`, must not be `None`")  # noqa: E501
 
         self._environment_configs = environment_configs
 

@@ -39,8 +39,7 @@ class IdAdminsBody(object):
         """IdAdminsBody - a model defined in Swagger"""  # noqa: E501
         self._admins = None
         self.discriminator = None
-        if admins is not None:
-            self.admins = admins
+        self.admins = admins
 
     @property
     def admins(self):
@@ -62,6 +61,8 @@ class IdAdminsBody(object):
         :param admins: The admins of this IdAdminsBody.  # noqa: E501
         :type: list[object]
         """
+        if admins is None:
+            raise ValueError("Invalid value for `admins`, must not be `None`")  # noqa: E501
 
         self._admins = admins
 

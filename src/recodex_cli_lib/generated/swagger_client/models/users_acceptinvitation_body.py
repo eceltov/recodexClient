@@ -45,12 +45,9 @@ class UsersAcceptinvitationBody(object):
         self._password = None
         self._password_confirm = None
         self.discriminator = None
-        if token is not None:
-            self.token = token
-        if password is not None:
-            self.password = password
-        if password_confirm is not None:
-            self.password_confirm = password_confirm
+        self.token = token
+        self.password = password
+        self.password_confirm = password_confirm
 
     @property
     def token(self):
@@ -72,6 +69,8 @@ class UsersAcceptinvitationBody(object):
         :param token: The token of this UsersAcceptinvitationBody.  # noqa: E501
         :type: str
         """
+        if token is None:
+            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
 
         self._token = token
 
@@ -95,6 +94,8 @@ class UsersAcceptinvitationBody(object):
         :param password: The password of this UsersAcceptinvitationBody.  # noqa: E501
         :type: str
         """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
 
         self._password = password
 
@@ -118,6 +119,8 @@ class UsersAcceptinvitationBody(object):
         :param password_confirm: The password_confirm of this UsersAcceptinvitationBody.  # noqa: E501
         :type: str
         """
+        if password_confirm is None:
+            raise ValueError("Invalid value for `password_confirm`, must not be `None`")  # noqa: E501
 
         self._password_confirm = password_confirm
 

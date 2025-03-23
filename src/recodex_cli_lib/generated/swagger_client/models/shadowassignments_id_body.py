@@ -57,16 +57,11 @@ class ShadowassignmentsIdBody(object):
         self._send_notification = None
         self._deadline = None
         self.discriminator = None
-        if version is not None:
-            self.version = version
-        if is_public is not None:
-            self.is_public = is_public
-        if is_bonus is not None:
-            self.is_bonus = is_bonus
-        if localized_texts is not None:
-            self.localized_texts = localized_texts
-        if max_points is not None:
-            self.max_points = max_points
+        self.version = version
+        self.is_public = is_public
+        self.is_bonus = is_bonus
+        self.localized_texts = localized_texts
+        self.max_points = max_points
         if send_notification is not None:
             self.send_notification = send_notification
         if deadline is not None:
@@ -92,6 +87,8 @@ class ShadowassignmentsIdBody(object):
         :param version: The version of this ShadowassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -115,6 +112,8 @@ class ShadowassignmentsIdBody(object):
         :param is_public: The is_public of this ShadowassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if is_public is None:
+            raise ValueError("Invalid value for `is_public`, must not be `None`")  # noqa: E501
 
         self._is_public = is_public
 
@@ -138,6 +137,8 @@ class ShadowassignmentsIdBody(object):
         :param is_bonus: The is_bonus of this ShadowassignmentsIdBody.  # noqa: E501
         :type: bool
         """
+        if is_bonus is None:
+            raise ValueError("Invalid value for `is_bonus`, must not be `None`")  # noqa: E501
 
         self._is_bonus = is_bonus
 
@@ -161,6 +162,8 @@ class ShadowassignmentsIdBody(object):
         :param localized_texts: The localized_texts of this ShadowassignmentsIdBody.  # noqa: E501
         :type: list[object]
         """
+        if localized_texts is None:
+            raise ValueError("Invalid value for `localized_texts`, must not be `None`")  # noqa: E501
 
         self._localized_texts = localized_texts
 
@@ -184,6 +187,8 @@ class ShadowassignmentsIdBody(object):
         :param max_points: The max_points of this ShadowassignmentsIdBody.  # noqa: E501
         :type: int
         """
+        if max_points is None:
+            raise ValueError("Invalid value for `max_points`, must not be `None`")  # noqa: E501
 
         self._max_points = max_points
 

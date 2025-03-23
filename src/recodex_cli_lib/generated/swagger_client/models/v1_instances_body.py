@@ -45,12 +45,10 @@ class V1InstancesBody(object):
         self._description = None
         self._is_open = None
         self.discriminator = None
-        if name is not None:
-            self.name = name
+        self.name = name
         if description is not None:
             self.description = description
-        if is_open is not None:
-            self.is_open = is_open
+        self.is_open = is_open
 
     @property
     def name(self):
@@ -72,6 +70,8 @@ class V1InstancesBody(object):
         :param name: The name of this V1InstancesBody.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -118,6 +118,8 @@ class V1InstancesBody(object):
         :param is_open: The is_open of this V1InstancesBody.  # noqa: E501
         :type: bool
         """
+        if is_open is None:
+            raise ValueError("Invalid value for `is_open`, must not be `None`")  # noqa: E501
 
         self._is_open = is_open
 

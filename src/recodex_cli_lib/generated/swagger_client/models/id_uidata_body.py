@@ -42,8 +42,7 @@ class IdUidataBody(object):
         self._ui_data = None
         self._overwrite = None
         self.discriminator = None
-        if ui_data is not None:
-            self.ui_data = ui_data
+        self.ui_data = ui_data
         if overwrite is not None:
             self.overwrite = overwrite
 
@@ -67,6 +66,8 @@ class IdUidataBody(object):
         :param ui_data: The ui_data of this IdUidataBody.  # noqa: E501
         :type: list[object]
         """
+        if ui_data is None:
+            raise ValueError("Invalid value for `ui_data`, must not be `None`")  # noqa: E501
 
         self._ui_data = ui_data
 

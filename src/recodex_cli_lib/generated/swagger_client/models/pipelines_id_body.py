@@ -54,12 +54,9 @@ class PipelinesIdBody(object):
         self._parameters = None
         self.__global = None
         self.discriminator = None
-        if name is not None:
-            self.name = name
-        if version is not None:
-            self.version = version
-        if description is not None:
-            self.description = description
+        self.name = name
+        self.version = version
+        self.description = description
         if pipeline is not None:
             self.pipeline = pipeline
         if parameters is not None:
@@ -87,6 +84,8 @@ class PipelinesIdBody(object):
         :param name: The name of this PipelinesIdBody.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -110,6 +109,8 @@ class PipelinesIdBody(object):
         :param version: The version of this PipelinesIdBody.  # noqa: E501
         :type: int
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -133,6 +134,8 @@ class PipelinesIdBody(object):
         :param description: The description of this PipelinesIdBody.  # noqa: E501
         :type: str
         """
+        if description is None:
+            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
 
         self._description = description
 

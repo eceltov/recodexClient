@@ -39,8 +39,7 @@ class IdConfigBody(object):
         """IdConfigBody - a model defined in Swagger"""  # noqa: E501
         self._config = None
         self.discriminator = None
-        if config is not None:
-            self.config = config
+        self.config = config
 
     @property
     def config(self):
@@ -62,6 +61,8 @@ class IdConfigBody(object):
         :param config: The config of this IdConfigBody.  # noqa: E501
         :type: list[object]
         """
+        if config is None:
+            raise ValueError("Invalid value for `config`, must not be `None`")  # noqa: E501
 
         self._config = config
 

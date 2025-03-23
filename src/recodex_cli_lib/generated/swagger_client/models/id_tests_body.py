@@ -39,8 +39,7 @@ class IdTestsBody(object):
         """IdTestsBody - a model defined in Swagger"""  # noqa: E501
         self._tests = None
         self.discriminator = None
-        if tests is not None:
-            self.tests = tests
+        self.tests = tests
 
     @property
     def tests(self):
@@ -62,6 +61,8 @@ class IdTestsBody(object):
         :param tests: The tests of this IdTestsBody.  # noqa: E501
         :type: list[object]
         """
+        if tests is None:
+            raise ValueError("Invalid value for `tests`, must not be `None`")  # noqa: E501
 
         self._tests = tests
 

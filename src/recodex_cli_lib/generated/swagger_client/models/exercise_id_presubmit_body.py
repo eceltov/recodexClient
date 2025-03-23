@@ -39,8 +39,7 @@ class ExerciseIdPresubmitBody(object):
         """ExerciseIdPresubmitBody - a model defined in Swagger"""  # noqa: E501
         self._files = None
         self.discriminator = None
-        if files is not None:
-            self.files = files
+        self.files = files
 
     @property
     def files(self):
@@ -60,6 +59,8 @@ class ExerciseIdPresubmitBody(object):
         :param files: The files of this ExerciseIdPresubmitBody.  # noqa: E501
         :type: list[object]
         """
+        if files is None:
+            raise ValueError("Invalid value for `files`, must not be `None`")  # noqa: E501
 
         self._files = files
 

@@ -44,8 +44,7 @@ class ConfigVariablesBody(object):
         self.discriminator = None
         if runtime_environment_id is not None:
             self.runtime_environment_id = runtime_environment_id
-        if pipelines_ids is not None:
-            self.pipelines_ids = pipelines_ids
+        self.pipelines_ids = pipelines_ids
 
     @property
     def runtime_environment_id(self):
@@ -90,6 +89,8 @@ class ConfigVariablesBody(object):
         :param pipelines_ids: The pipelines_ids of this ConfigVariablesBody.  # noqa: E501
         :type: list[object]
         """
+        if pipelines_ids is None:
+            raise ValueError("Invalid value for `pipelines_ids`, must not be `None`")  # noqa: E501
 
         self._pipelines_ids = pipelines_ids
 

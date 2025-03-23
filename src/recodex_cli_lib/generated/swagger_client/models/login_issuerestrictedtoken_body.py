@@ -47,8 +47,7 @@ class LoginIssuerestrictedtokenBody(object):
         self.discriminator = None
         if effective_role is not None:
             self.effective_role = effective_role
-        if scopes is not None:
-            self.scopes = scopes
+        self.scopes = scopes
         if expiration is not None:
             self.expiration = expiration
 
@@ -95,6 +94,8 @@ class LoginIssuerestrictedtokenBody(object):
         :param scopes: The scopes of this LoginIssuerestrictedtokenBody.  # noqa: E501
         :type: list[object]
         """
+        if scopes is None:
+            raise ValueError("Invalid value for `scopes`, must not be `None`")  # noqa: E501
 
         self._scopes = scopes
 

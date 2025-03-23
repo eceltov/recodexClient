@@ -42,10 +42,8 @@ class DebugParamBody(object):
         self._a = None
         self._d = None
         self.discriminator = None
-        if a is not None:
-            self.a = a
-        if d is not None:
-            self.d = d
+        self.a = a
+        self.d = d
 
     @property
     def a(self):
@@ -67,6 +65,8 @@ class DebugParamBody(object):
         :param a: The a of this DebugParamBody.  # noqa: E501
         :type: str
         """
+        if a is None:
+            raise ValueError("Invalid value for `a`, must not be `None`")  # noqa: E501
 
         self._a = a
 
@@ -90,6 +90,8 @@ class DebugParamBody(object):
         :param d: The d of this DebugParamBody.  # noqa: E501
         :type: float
         """
+        if d is None:
+            raise ValueError("Invalid value for `d`, must not be `None`")  # noqa: E501
 
         self._d = d
 

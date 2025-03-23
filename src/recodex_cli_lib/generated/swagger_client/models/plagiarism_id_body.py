@@ -39,8 +39,7 @@ class PlagiarismIdBody(object):
         """PlagiarismIdBody - a model defined in Swagger"""  # noqa: E501
         self._upload_completed = None
         self.discriminator = None
-        if upload_completed is not None:
-            self.upload_completed = upload_completed
+        self.upload_completed = upload_completed
 
     @property
     def upload_completed(self):
@@ -62,6 +61,8 @@ class PlagiarismIdBody(object):
         :param upload_completed: The upload_completed of this PlagiarismIdBody.  # noqa: E501
         :type: bool
         """
+        if upload_completed is None:
+            raise ValueError("Invalid value for `upload_completed`, must not be `None`")  # noqa: E501
 
         self._upload_completed = upload_completed
 

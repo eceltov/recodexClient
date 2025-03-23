@@ -39,8 +39,7 @@ class AssignmentsolutionsIdBody(object):
         """AssignmentsolutionsIdBody - a model defined in Swagger"""  # noqa: E501
         self._note = None
         self.discriminator = None
-        if note is not None:
-            self.note = note
+        self.note = note
 
     @property
     def note(self):
@@ -62,6 +61,8 @@ class AssignmentsolutionsIdBody(object):
         :param note: The note of this AssignmentsolutionsIdBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 

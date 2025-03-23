@@ -39,8 +39,7 @@ class IdAuthorBody(object):
         """IdAuthorBody - a model defined in Swagger"""  # noqa: E501
         self._author = None
         self.discriminator = None
-        if author is not None:
-            self.author = author
+        self.author = author
 
     @property
     def author(self):
@@ -62,6 +61,8 @@ class IdAuthorBody(object):
         :param author: The author of this IdAuthorBody.  # noqa: E501
         :type: str
         """
+        if author is None:
+            raise ValueError("Invalid value for `author`, must not be `None`")  # noqa: E501
 
         self._author = author
 

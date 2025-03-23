@@ -45,8 +45,7 @@ class ReviewcommentCommentIdBody(object):
         self._issue = None
         self._suppress_notification = None
         self.discriminator = None
-        if text is not None:
-            self.text = text
+        self.text = text
         if issue is not None:
             self.issue = issue
         if suppress_notification is not None:
@@ -72,6 +71,8 @@ class ReviewcommentCommentIdBody(object):
         :param text: The text of this ReviewcommentCommentIdBody.  # noqa: E501
         :type: str
         """
+        if text is None:
+            raise ValueError("Invalid value for `text`, must not be `None`")  # noqa: E501
 
         self._text = text
 

@@ -63,14 +63,10 @@ class UsersInviteBody(object):
         self._locale = None
         self._test = None
         self.discriminator = None
-        if email is not None:
-            self.email = email
-        if first_name is not None:
-            self.first_name = first_name
-        if last_name is not None:
-            self.last_name = last_name
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.instance_id = instance_id
         if titles_before_name is not None:
             self.titles_before_name = titles_before_name
         if titles_after_name is not None:
@@ -102,6 +98,8 @@ class UsersInviteBody(object):
         :param email: The email of this UsersInviteBody.  # noqa: E501
         :type: str
         """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 
@@ -125,6 +123,8 @@ class UsersInviteBody(object):
         :param first_name: The first_name of this UsersInviteBody.  # noqa: E501
         :type: str
         """
+        if first_name is None:
+            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
 
         self._first_name = first_name
 
@@ -148,6 +148,8 @@ class UsersInviteBody(object):
         :param last_name: The last_name of this UsersInviteBody.  # noqa: E501
         :type: str
         """
+        if last_name is None:
+            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
 
         self._last_name = last_name
 
@@ -171,6 +173,8 @@ class UsersInviteBody(object):
         :param instance_id: The instance_id of this UsersInviteBody.  # noqa: E501
         :type: str
         """
+        if instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

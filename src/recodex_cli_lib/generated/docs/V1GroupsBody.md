@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**instance_id** | **str** | An identifier of the instance where the group should be created | [optional] 
+**instance_id** | **str** | An identifier of the instance where the group should be created | 
 **external_id** | **str** | An informative, human readable identifier of the group | [optional] 
 **parent_group_id** | **str** | Identifier of the parent group (if none is given, a top-level group is created) | [optional] 
 **public_stats** | **bool** | Should students be able to see each other&#x27;s results? | [optional] 

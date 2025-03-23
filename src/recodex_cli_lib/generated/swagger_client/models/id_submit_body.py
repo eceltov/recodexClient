@@ -51,14 +51,11 @@ class IdSubmitBody(object):
         self._runtime_environment_id = None
         self._solution_params = None
         self.discriminator = None
-        if note is not None:
-            self.note = note
+        self.note = note
         if user_id is not None:
             self.user_id = user_id
-        if files is not None:
-            self.files = files
-        if runtime_environment_id is not None:
-            self.runtime_environment_id = runtime_environment_id
+        self.files = files
+        self.runtime_environment_id = runtime_environment_id
         if solution_params is not None:
             self.solution_params = solution_params
 
@@ -82,6 +79,8 @@ class IdSubmitBody(object):
         :param note: The note of this IdSubmitBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 
@@ -128,6 +127,8 @@ class IdSubmitBody(object):
         :param files: The files of this IdSubmitBody.  # noqa: E501
         :type: str
         """
+        if files is None:
+            raise ValueError("Invalid value for `files`, must not be `None`")  # noqa: E501
 
         self._files = files
 
@@ -151,6 +152,8 @@ class IdSubmitBody(object):
         :param runtime_environment_id: The runtime_environment_id of this IdSubmitBody.  # noqa: E501
         :type: str
         """
+        if runtime_environment_id is None:
+            raise ValueError("Invalid value for `runtime_environment_id`, must not be `None`")  # noqa: E501
 
         self._runtime_environment_id = runtime_environment_id
 

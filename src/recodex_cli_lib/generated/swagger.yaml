@@ -10,6 +10,9 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - url
+                - method
               properties:
                 url:
                   description: 'URL of the resource that we are checking'
@@ -32,15 +35,20 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - username
+                - password
               properties:
                 username:
                   description: "User's E-mail"
                   type: string
+                  minLength: 1
                   example: name@domain.tld
                   nullable: false
                 password:
                   description: Password
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -64,6 +72,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - scopes
               properties:
                 effectiveRole:
                   description: 'Effective user role contained within issued token'
@@ -97,6 +107,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -113,14 +124,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - token
               properties:
                 token:
                   description: 'JWT external authentication token'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -160,6 +175,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - message
               properties:
                 message:
                   description: 'A textual description of the error'
@@ -182,10 +199,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - status
               properties:
                 status:
                   description: 'The new status of the job'
@@ -212,6 +232,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -227,14 +248,19 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - text
               properties:
                 text:
                   description: 'Text of the comment'
                   type: string
+                  maxLength: 65535
+                  minLength: 1
                   example: text
                   nullable: false
                 isPrivate:
@@ -259,6 +285,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: commentId
           in: path
@@ -266,6 +293,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -282,6 +310,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: commentId
           in: path
@@ -289,10 +318,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - isPrivate
               properties:
                 isPrivate:
                   description: 'True if the comment is private'
@@ -316,6 +348,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: commentId
           in: path
@@ -323,6 +356,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -339,6 +373,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: false
         -
           name: limit
           in: query
@@ -346,6 +381,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: true
         -
           name: orderBy
           in: query
@@ -353,6 +389,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
         -
           name: filters
           in: query
@@ -361,6 +398,7 @@ paths:
           schema:
             type: array
             items: {  }
+            nullable: true
         -
           name: locale
           in: query
@@ -368,6 +406,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -379,6 +418,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - groupId
               properties:
                 groupId:
                   description: 'Identifier of the group to which exercise belongs to'
@@ -397,6 +438,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - ids
               properties:
                 ids:
                   description: 'Identifications of exercises'
@@ -420,6 +463,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: groupId
           in: query
@@ -427,6 +471,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -459,6 +504,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: renameTo
           in: query
@@ -466,6 +512,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: force
           in: query
@@ -473,6 +520,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -489,6 +537,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -504,10 +553,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
+                - difficulty
+                - localizedTexts
+                - solutionFilesLimit
+                - solutionSizeLimit
+                - mergeJudgeLogs
               properties:
                 version:
                   description: 'Version of the edited exercise'
@@ -569,6 +626,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -585,10 +643,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
               properties:
                 version:
                   description: 'Version of the exercise.'
@@ -612,10 +673,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - groupId
               properties:
                 groupId:
                   description: 'Identifier of the group to which exercise will be forked'
@@ -638,6 +702,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: archived
           in: query
@@ -645,6 +710,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -661,10 +727,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - hwGroups
               properties:
                 hwGroups:
                   description: 'List of hardware groups identifications to which exercise belongs to'
@@ -688,6 +757,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: groupId
           in: path
@@ -695,6 +765,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -710,6 +781,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: groupId
           in: path
@@ -717,6 +789,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -733,6 +806,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: name
           in: path
@@ -740,6 +814,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -755,6 +830,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: name
           in: path
@@ -762,6 +838,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -778,10 +855,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - archived
               properties:
                 archived:
                   description: 'Whether the exercise should be marked or unmarked'
@@ -805,14 +885,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - author
               properties:
                 author:
                   description: 'Id of the new author of the exercise.'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
               type: object
@@ -832,10 +916,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - admins
               properties:
                 admins:
                   description: 'List of user IDs.'
@@ -859,10 +946,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - message
               properties:
                 message:
                   description: 'Message sent to notified users.'
@@ -886,6 +976,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -901,10 +992,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - files
               properties:
                 files:
                   description: 'Identifiers of supplementary files'
@@ -927,6 +1021,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: fileId
           in: path
@@ -934,6 +1029,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -950,6 +1046,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -966,6 +1063,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -981,10 +1079,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - files
               properties:
                 files:
                   description: 'Identifiers of attachment files'
@@ -1007,6 +1108,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: fileId
           in: path
@@ -1014,6 +1116,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1030,6 +1133,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1046,6 +1150,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1061,10 +1166,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - tests
               properties:
                 tests:
                   description: 'An array of tests which will belong to exercise'
@@ -1088,6 +1196,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1103,10 +1212,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - environmentConfigs
               properties:
                 environmentConfigs:
                   description: 'Environment configurations for the exercise'
@@ -1130,6 +1242,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1145,10 +1258,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - config
               properties:
                 config:
                   description: 'A list of basic high level exercise configuration'
@@ -1172,14 +1288,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - pipelinesIds
               properties:
                 runtimeEnvironmentId:
                   description: 'Environment identifier'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 pipelinesIds:
@@ -1204,6 +1324,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: runtimeEnvironmentId
           in: path
@@ -1211,6 +1332,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: hwGroupId
           in: path
@@ -1218,6 +1340,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1233,6 +1356,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: runtimeEnvironmentId
           in: path
@@ -1240,6 +1364,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: hwGroupId
           in: path
@@ -1247,10 +1372,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - limits
               properties:
                 limits:
                   description: 'A list of resource limits for the given environment and hardware group'
@@ -1273,6 +1401,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: runtimeEnvironmentId
           in: path
@@ -1280,6 +1409,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: hwGroupId
           in: path
@@ -1287,6 +1417,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1303,6 +1434,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1318,10 +1450,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - limits
               properties:
                 limits:
                   description: 'A list of resource limits in the same format as getLimits endpoint yields.'
@@ -1345,6 +1480,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1360,10 +1496,14 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - scoreCalculator
+                - scoreConfig
               properties:
                 scoreCalculator:
                   description: 'ID of the score calculator'
@@ -1387,6 +1527,9 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - exerciseId
+                - groupId
               properties:
                 exerciseId:
                   description: 'Identifier of the exercise'
@@ -1413,6 +1556,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1428,10 +1572,27 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
+                - isPublic
+                - localizedTexts
+                - firstDeadline
+                - maxPointsBeforeFirstDeadline
+                - submissionsCountLimit
+                - solutionFilesLimit
+                - solutionSizeLimit
+                - allowSecondDeadline
+                - canViewLimitRatios
+                - canViewMeasuredValues
+                - canViewJudgeStdout
+                - canViewJudgeStderr
+                - maxPointsDeadlineInterpolation
+                - isBonus
               properties:
                 version:
                   description: 'Version of the edited assignment'
@@ -1559,6 +1720,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1575,6 +1737,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1591,6 +1754,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1607,6 +1771,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1623,6 +1788,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -1630,6 +1796,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1646,6 +1813,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -1653,6 +1821,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1669,10 +1838,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
               properties:
                 version:
                   description: 'Version of the assignment.'
@@ -1696,6 +1868,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1712,6 +1885,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: query
@@ -1719,6 +1893,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -1735,14 +1910,20 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - note
+                - files
+                - runtimeEnvironmentId
               properties:
                 note:
                   description: 'A note by the author of the solution'
                   type: string
+                  maxLength: 1024
                   example: text
                   nullable: false
                 userId:
@@ -1778,6 +1959,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1793,6 +1975,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1809,6 +1992,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: query
@@ -1816,10 +2000,13 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - files
               properties:
                 files:
                   description: ''
@@ -1843,6 +2030,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1859,6 +2047,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
         -
           name: ancestors
           in: query
@@ -1866,6 +2055,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
         -
           name: search
           in: query
@@ -1873,6 +2063,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
         -
           name: archived
           in: query
@@ -1880,6 +2071,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
         -
           name: onlyArchived
           in: query
@@ -1887,6 +2079,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -1898,10 +2091,13 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - instanceId
               properties:
                 instanceId:
                   description: 'An identifier of the instance where the group should be created'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
                 externalId:
@@ -1911,6 +2107,7 @@ paths:
                 parentGroupId:
                   description: 'Identifier of the parent group (if none is given, a top-level group is created)'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
                 publicStats:
@@ -1971,6 +2168,10 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - name
+                - locale
+                - instanceId
               properties:
                 name:
                   description: 'Name of the group'
@@ -2005,6 +2206,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2020,10 +2222,15 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - publicStats
+                - isPublic
+                - localizedTexts
               properties:
                 externalId:
                   description: 'An informative, human readable indentifier of the group'
@@ -2075,6 +2282,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2091,6 +2299,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2107,10 +2316,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - value
               properties:
                 value:
                   description: 'The value of the flag'
@@ -2134,10 +2346,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - value
               properties:
                 value:
                   description: 'The value of the flag'
@@ -2161,10 +2376,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - end
               properties:
                 begin:
                   description: 'When the exam begins (unix ts in the future, optional if update is performed).'
@@ -2197,6 +2415,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2213,6 +2432,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: examId
           in: path
@@ -2220,6 +2440,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2236,6 +2457,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: newParentId
           in: path
@@ -2243,6 +2465,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2259,6 +2482,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2275,6 +2499,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2282,6 +2507,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2297,6 +2523,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2304,6 +2531,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2319,6 +2547,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2326,6 +2555,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2342,6 +2572,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2349,6 +2580,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2365,6 +2597,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2372,6 +2605,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2387,6 +2621,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2394,6 +2629,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2410,6 +2646,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2426,6 +2663,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2433,14 +2671,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - type
               properties:
                 type:
                   description: 'Identifier of membership type (admin, supervisor, ...)'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -2459,6 +2701,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: path
@@ -2466,6 +2709,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2482,6 +2726,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2498,6 +2743,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2514,6 +2760,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2529,10 +2776,14 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - expireAt
+                - note
               properties:
                 expireAt:
                   description: 'When the invitation expires.'
@@ -2560,6 +2811,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2575,10 +2827,14 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - expireAt
+                - note
               properties:
                 expireAt:
                   description: 'When the invitation expires.'
@@ -2603,6 +2859,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2619,6 +2876,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2635,6 +2893,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2651,24 +2910,34 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - service
+                - key
+                - value
               properties:
                 service:
                   description: 'Identifier of the external service creating the attribute'
                   type: string
+                  maxLength: 32
+                  minLength: 1
                   example: text
                   nullable: false
                 key:
                   description: 'Key of the attribute (must be valid identifier)'
                   type: string
+                  maxLength: 32
+                  minLength: 1
                   example: text
                   nullable: false
                 value:
                   description: 'Value of the attribute (arbitrary string)'
                   type: string
+                  maxLength: 255
                   example: text
                   nullable: false
               type: object
@@ -2688,6 +2957,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2707,10 +2977,14 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - name
+                - isOpen
               properties:
                 name:
                   description: 'Name of the instance'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 description:
@@ -2739,6 +3013,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2754,6 +3029,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -2780,6 +3056,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2796,6 +3073,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2811,14 +3089,19 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - note
+                - validUntil
               properties:
                 note:
                   description: 'A note for users or administrators'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 validUntil:
@@ -2843,6 +3126,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -2851,6 +3135,8 @@ paths:
                 note:
                   description: 'A note for users or administrators'
                   type: string
+                  maxLength: 255
+                  minLength: 2
                   example: text
                   nullable: false
                 validUntil:
@@ -2879,6 +3165,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2895,6 +3182,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -2911,10 +3199,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - files
               properties:
                 files:
                   description: ''
@@ -2938,10 +3229,15 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - note
+                - files
+                - runtimeEnvironmentId
               properties:
                 note:
                   description: 'Description of this particular reference solution, for example used algorithm'
@@ -2977,6 +3273,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -3004,6 +3301,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3019,14 +3317,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - note
               properties:
                 note:
                   description: 'A description by the author of the solution'
                   type: string
+                  maxLength: 65535
                   example: text
                   nullable: false
               type: object
@@ -3045,6 +3347,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3061,6 +3364,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -3088,6 +3392,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3104,6 +3409,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3120,6 +3426,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3136,10 +3443,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - visibility
               properties:
                 visibility:
                   description: 'New visibility level.'
@@ -3163,6 +3473,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3178,6 +3489,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3194,6 +3506,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3210,6 +3523,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3226,6 +3540,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3241,14 +3556,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - note
               properties:
                 note:
                   description: 'A note by the author of the solution'
                   type: string
+                  maxLength: 1024
                   example: text
                   nullable: false
               type: object
@@ -3267,6 +3586,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3283,10 +3603,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - bonusPoints
               properties:
                 bonusPoints:
                   description: 'New amount of bonus points, can be negative number'
@@ -3314,6 +3637,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3330,6 +3654,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: flag
           in: path
@@ -3337,10 +3662,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - value
               properties:
                 value:
                   description: 'True or false which should be set to given flag name'
@@ -3364,6 +3692,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -3391,6 +3720,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3407,6 +3737,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3423,6 +3754,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3438,6 +3770,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3454,6 +3787,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3470,6 +3804,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3486,6 +3821,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3501,10 +3837,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - close
               properties:
                 close:
                   description: 'If true, the review is closed. If false, the review is (re)opened.'
@@ -3527,6 +3866,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3543,19 +3883,27 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - text
+                - file
+                - line
               properties:
                 text:
                   description: 'The comment itself.'
                   type: string
+                  maxLength: 65535
+                  minLength: 1
                   example: text
                   nullable: false
                 file:
                   description: 'Identification of the file to which the comment is related to.'
                   type: string
+                  maxLength: 256
                   example: text
                   nullable: false
                 line:
@@ -3590,6 +3938,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: commentId
           in: path
@@ -3597,14 +3946,19 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - text
               properties:
                 text:
                   description: 'The comment itself.'
                   type: string
+                  maxLength: 65535
+                  minLength: 1
                   example: text
                   nullable: false
                 issue:
@@ -3633,6 +3987,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: commentId
           in: path
@@ -3640,6 +3995,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3656,6 +4012,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: groupId
           in: query
@@ -3663,6 +4020,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: userId
           in: query
@@ -3670,6 +4028,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3702,6 +4061,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3718,14 +4078,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - sendEmail
               properties:
                 note:
                   description: 'Brief description of how the failure was resolved'
                   type: string
+                  maxLength: 255
                   example: text
                   nullable: false
                 sendEmail:
@@ -3746,10 +4110,15 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - name
+                - size
               properties:
                 name:
                   description: 'Name of the uploaded file.'
                   type: string
+                  maxLength: 255
+                  minLength: 1
                   example: text
                   nullable: false
                 size:
@@ -3774,6 +4143,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: offset
           in: query
@@ -3781,6 +4151,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3796,6 +4167,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3811,6 +4183,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3835,6 +4208,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3851,6 +4225,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3867,6 +4242,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: entry
           in: query
@@ -3874,6 +4250,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: similarSolutionId
           in: query
@@ -3881,6 +4258,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3897,6 +4275,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: entry
           in: query
@@ -3904,6 +4283,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: similarSolutionId
           in: query
@@ -3911,6 +4291,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3927,6 +4308,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -3943,6 +4325,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: false
         -
           name: limit
           in: query
@@ -3950,6 +4333,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: true
         -
           name: orderBy
           in: query
@@ -3957,6 +4341,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
         -
           name: filters
           in: query
@@ -3965,6 +4350,7 @@ paths:
           schema:
             type: array
             items: {  }
+            nullable: true
         -
           name: locale
           in: query
@@ -3972,6 +4358,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -3983,45 +4370,60 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - email
+                - firstName
+                - lastName
+                - password
+                - passwordConfirm
+                - instanceId
               properties:
                 email:
                   description: 'An email that will serve as a login name'
                   type: string
+                  minLength: 1
                   example: name@domain.tld
                   nullable: false
                 firstName:
                   description: 'First name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 lastName:
                   description: 'Last name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 password:
                   description: 'A password for authentication'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 passwordConfirm:
                   description: 'A password confirmation'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 instanceId:
                   description: 'Identifier of the instance to register in'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 titlesBeforeName:
                   description: 'Titles which is placed before user name'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 titlesAfterName:
                   description: 'Titles which is placed after user name'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -4037,6 +4439,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - email
               properties:
                 email:
                   description: 'E-mail address (login name)'
@@ -4059,6 +4463,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - ids
               properties:
                 ids:
                   description: 'Identifications of users'
@@ -4082,6 +4488,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4097,6 +4504,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4109,35 +4517,46 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - email
+                - firstName
+                - lastName
+                - instanceId
               properties:
                 email:
                   description: 'An email that will serve as a login name'
                   type: string
+                  minLength: 1
                   example: name@domain.tld
                   nullable: false
                 firstName:
                   description: 'First name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 lastName:
                   description: 'Last name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 instanceId:
                   description: 'Identifier of the instance to register in'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
                 titlesBeforeName:
                   description: 'Titles that are placed before user name'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 titlesAfterName:
                   description: 'Titles that are placed after user name'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 groups:
@@ -4148,6 +4567,8 @@ paths:
                 locale:
                   description: 'Language used in the invitation email (en by default).'
                   type: string
+                  maxLength: 2
+                  minLength: 2
                   example: text
                   nullable: false
                 test:
@@ -4168,20 +4589,27 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - token
+                - password
+                - passwordConfirm
               properties:
                 token:
                   description: 'Token issued in create invitation process.'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 password:
                   description: 'A password for authentication'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 passwordConfirm:
                   description: 'A password confirmation'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -4201,6 +4629,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: b
           in: query
@@ -4208,6 +4637,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: false
         -
           name: c
           in: query
@@ -4215,14 +4645,20 @@ paths:
           required: true
           schema:
             type: number
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - a
+                - d
               properties:
                 a:
                   description: a
                   type: string
+                  maxLength: 5
+                  minLength: 1
                   example: text
                   nullable: false
                 d:
@@ -4247,6 +4683,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4262,6 +4699,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -4270,11 +4708,13 @@ paths:
                 firstName:
                   description: 'First name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 lastName:
                   description: 'Last name'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 titlesBeforeName:
@@ -4288,21 +4728,25 @@ paths:
                 email:
                   description: 'New email address'
                   type: string
+                  minLength: 1
                   example: name@domain.tld
                   nullable: false
                 oldPassword:
                   description: 'Old password of current user'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 password:
                   description: 'New password of current user'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 passwordConfirm:
                   description: 'Confirmation of new password of current user'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 gravatarUrlEnabled:
@@ -4326,6 +4770,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4342,6 +4787,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4358,6 +4804,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4374,6 +4821,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4390,6 +4838,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4406,6 +4855,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -4488,10 +4938,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - uiData
               properties:
                 uiData:
                   description: 'Structured user-specific UI data'
@@ -4520,6 +4973,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4536,14 +4990,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - role
               properties:
                 role:
                   description: 'Role which should be assigned to the user'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -4563,6 +5021,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: service
           in: path
@@ -4570,14 +5029,19 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - externalId
               properties:
                 externalId:
                   description: ''
                   type: string
+                  maxLength: 128
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -4596,6 +5060,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: service
           in: path
@@ -4603,6 +5068,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4619,6 +5085,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4634,6 +5101,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4650,6 +5118,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4666,6 +5135,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4694,10 +5164,13 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - username
               properties:
                 username:
                   description: 'An identifier of the user whose password should be reset'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
               type: object
@@ -4713,10 +5186,13 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - password
               properties:
                 password:
                   description: 'The new password'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
               type: object
@@ -4732,6 +5208,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - password
               properties:
                 password:
                   description: 'The password to be checked'
@@ -4770,6 +5248,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: false
         -
           name: limit
           in: query
@@ -4777,6 +5256,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: true
         -
           name: orderBy
           in: query
@@ -4784,6 +5264,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
         -
           name: filters
           in: query
@@ -4792,6 +5273,7 @@ paths:
           schema:
             type: array
             items: {  }
+            nullable: true
         -
           name: locale
           in: query
@@ -4799,6 +5281,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -4841,6 +5324,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
@@ -4868,6 +5352,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4883,14 +5368,20 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - name
+                - version
+                - description
               properties:
                 name:
                   description: 'Name of the pipeline'
                   type: string
+                  minLength: 2
                   example: text
                   nullable: false
                 version:
@@ -4932,6 +5423,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4948,6 +5440,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -4964,10 +5457,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
               properties:
                 version:
                   description: 'Version of the pipeline.'
@@ -4991,6 +5487,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5006,10 +5503,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - files
               properties:
                 files:
                   description: 'Identifiers of supplementary files'
@@ -5032,6 +5532,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: fileId
           in: path
@@ -5039,6 +5540,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5055,6 +5557,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5080,6 +5583,9 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - year
+                - term
               properties:
                 year:
                   description: ''
@@ -5106,10 +5612,15 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - beginning
+                - end
+                - advertiseUntil
               properties:
                 beginning:
                   description: ''
@@ -5142,6 +5653,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5158,6 +5670,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: year
           in: path
@@ -5165,6 +5678,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
         -
           name: term
           in: path
@@ -5172,6 +5686,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5188,6 +5703,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: year
           in: path
@@ -5195,6 +5711,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
         -
           name: term
           in: path
@@ -5202,6 +5719,7 @@ paths:
           required: true
           schema:
             type: integer
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5218,6 +5736,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5234,10 +5753,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - parentGroupId
               properties:
                 parentGroupId:
                   description: ''
@@ -5260,10 +5782,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - groupId
               properties:
                 groupId:
                   description: ''
@@ -5286,6 +5811,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: groupId
           in: path
@@ -5293,6 +5819,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5305,15 +5832,20 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - subject
+                - message
               properties:
                 subject:
                   description: 'Subject for the soon to be sent email'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 message:
                   description: 'Message which will be sent, can be html code'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -5329,15 +5861,20 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - subject
+                - message
               properties:
                 subject:
                   description: 'Subject for the soon to be sent email'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 message:
                   description: 'Message which will be sent, can be html code'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -5353,15 +5890,20 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - subject
+                - message
               properties:
                 subject:
                   description: 'Subject for the soon to be sent email'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 message:
                   description: 'Message which will be sent, can be html code'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -5381,10 +5923,15 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - toMe
+                - subject
+                - message
               properties:
                 toSupervisors:
                   description: 'If true, then the mail will be sent to supervisors'
@@ -5409,11 +5956,13 @@ paths:
                 subject:
                   description: 'Subject for the soon to be sent email'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 message:
                   description: 'Message which will be sent, can be html code'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
               type: object
@@ -5433,6 +5982,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5448,10 +5998,17 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
+                - isPublic
+                - isBonus
+                - localizedTexts
+                - maxPoints
               properties:
                 version:
                   description: 'Version of the edited assignment'
@@ -5504,6 +6061,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5516,6 +6074,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - groupId
               properties:
                 groupId:
                   description: 'Identifier of the group'
@@ -5538,10 +6098,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - version
               properties:
                 version:
                   description: 'Version of the shadow assignment.'
@@ -5565,10 +6128,15 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - userId
+                - points
+                - note
               properties:
                 userId:
                   description: 'Identifier of the user which is marked as awardee for points'
@@ -5607,10 +6175,14 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - points
+                - note
               properties:
                 points:
                   description: 'Number of points assigned to the user'
@@ -5620,6 +6192,7 @@ paths:
                 note:
                   description: 'Note about newly created points'
                   type: string
+                  maxLength: 1024
                   example: text
                   nullable: false
                 awardedAt:
@@ -5643,6 +6216,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5660,6 +6234,7 @@ paths:
           schema:
             type: array
             items: {  }
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5671,6 +6246,13 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - groupsIds
+                - visibleFrom
+                - visibleTo
+                - role
+                - type
+                - localizedTexts
               properties:
                 groupsIds:
                   description: 'Identification of groups'
@@ -5690,6 +6272,7 @@ paths:
                 role:
                   description: 'Users with this role and its children can see notification'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 type:
@@ -5727,10 +6310,18 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - groupsIds
+                - visibleFrom
+                - visibleTo
+                - role
+                - type
+                - localizedTexts
               properties:
                 groupsIds:
                   description: 'Identification of groups'
@@ -5750,6 +6341,7 @@ paths:
                 role:
                   description: 'Users with this role and its children can see notification'
                   type: string
+                  minLength: 1
                   example: text
                   nullable: false
                 type:
@@ -5778,6 +6370,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5794,6 +6387,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5810,6 +6404,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5826,6 +6421,7 @@ paths:
           required: false
           schema:
             type: integer
+            nullable: true
         -
           name: includeScheduled
           in: query
@@ -5833,6 +6429,7 @@ paths:
           required: false
           schema:
             type: boolean
+            nullable: true
       responses:
         '200':
           description: 'The data'
@@ -5849,6 +6446,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5873,6 +6471,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: solutionId
           in: query
@@ -5880,6 +6479,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5891,15 +6491,20 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - detectionTool
               properties:
                 detectionTool:
                   description: 'Identifier of the external tool used to detect similarities.'
                   type: string
+                  maxLength: 255
+                  minLength: 1
                   example: text
                   nullable: false
                 detectionToolParams:
                   description: 'Tool-specific parameters (e.g., CLI args) used for this particular batch.'
                   type: string
+                  maxLength: 255
                   example: text
                   nullable: false
               type: object
@@ -5919,6 +6524,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5934,10 +6540,13 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - uploadCompleted
               properties:
                 uploadCompleted:
                   description: 'Whether the upload of the batch data is completed or not.'
@@ -5961,6 +6570,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: solutionId
           in: path
@@ -5968,6 +6578,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -5983,6 +6594,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: solutionId
           in: path
@@ -5990,24 +6602,33 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       requestBody:
         content:
           application/json:
             schema:
+              required:
+                - solutionFileId
+                - authorId
+                - similarity
+                - files
               properties:
                 solutionFileId:
                   description: 'Id of the uploaded solution file.'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
                 fileEntry:
                   description: 'Entry (relative path) within a ZIP package (if the uploaded file is a ZIP).'
                   type: string
+                  maxLength: 255
                   example: text
                   nullable: false
                 authorId:
                   description: 'Id of the author of the similar solutions/files.'
                   type: string
+                  pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/'
                   example: 10000000-2000-4000-8000-160000000000
                   nullable: false
                 similarity:
@@ -6037,6 +6658,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: instanceId
           in: path
@@ -6044,6 +6666,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
         -
           name: locale
           in: query
@@ -6051,6 +6674,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
         -
           name: return
           in: query
@@ -6058,6 +6682,7 @@ paths:
           required: false
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'
@@ -6074,6 +6699,7 @@ paths:
           required: true
           schema:
             type: string
+            nullable: false
       responses:
         '200':
           description: 'The data'

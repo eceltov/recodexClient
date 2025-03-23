@@ -39,8 +39,7 @@ class IdLimitsBody(object):
         """IdLimitsBody - a model defined in Swagger"""  # noqa: E501
         self._limits = None
         self.discriminator = None
-        if limits is not None:
-            self.limits = limits
+        self.limits = limits
 
     @property
     def limits(self):
@@ -62,6 +61,8 @@ class IdLimitsBody(object):
         :param limits: The limits of this IdLimitsBody.  # noqa: E501
         :type: list[object]
         """
+        if limits is None:
+            raise ValueError("Invalid value for `limits`, must not be `None`")  # noqa: E501
 
         self._limits = limits
 

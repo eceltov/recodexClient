@@ -42,10 +42,8 @@ class V1ExerciseassignmentsBody(object):
         self._exercise_id = None
         self._group_id = None
         self.discriminator = None
-        if exercise_id is not None:
-            self.exercise_id = exercise_id
-        if group_id is not None:
-            self.group_id = group_id
+        self.exercise_id = exercise_id
+        self.group_id = group_id
 
     @property
     def exercise_id(self):
@@ -67,6 +65,8 @@ class V1ExerciseassignmentsBody(object):
         :param exercise_id: The exercise_id of this V1ExerciseassignmentsBody.  # noqa: E501
         :type: str
         """
+        if exercise_id is None:
+            raise ValueError("Invalid value for `exercise_id`, must not be `None`")  # noqa: E501
 
         self._exercise_id = exercise_id
 
@@ -90,6 +90,8 @@ class V1ExerciseassignmentsBody(object):
         :param group_id: The group_id of this V1ExerciseassignmentsBody.  # noqa: E501
         :type: str
         """
+        if group_id is None:
+            raise ValueError("Invalid value for `group_id`, must not be `None`")  # noqa: E501
 
         self._group_id = group_id
 

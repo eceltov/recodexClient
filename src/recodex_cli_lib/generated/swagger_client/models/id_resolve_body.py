@@ -44,8 +44,7 @@ class IdResolveBody(object):
         self.discriminator = None
         if note is not None:
             self.note = note
-        if send_email is not None:
-            self.send_email = send_email
+        self.send_email = send_email
 
     @property
     def note(self):
@@ -90,6 +89,8 @@ class IdResolveBody(object):
         :param send_email: The send_email of this IdResolveBody.  # noqa: E501
         :type: bool
         """
+        if send_email is None:
+            raise ValueError("Invalid value for `send_email`, must not be `None`")  # noqa: E501
 
         self._send_email = send_email
 

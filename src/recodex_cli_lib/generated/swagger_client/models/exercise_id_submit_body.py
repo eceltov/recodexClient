@@ -48,12 +48,9 @@ class ExerciseIdSubmitBody(object):
         self._runtime_environment_id = None
         self._solution_params = None
         self.discriminator = None
-        if note is not None:
-            self.note = note
-        if files is not None:
-            self.files = files
-        if runtime_environment_id is not None:
-            self.runtime_environment_id = runtime_environment_id
+        self.note = note
+        self.files = files
+        self.runtime_environment_id = runtime_environment_id
         if solution_params is not None:
             self.solution_params = solution_params
 
@@ -77,6 +74,8 @@ class ExerciseIdSubmitBody(object):
         :param note: The note of this ExerciseIdSubmitBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 
@@ -100,6 +99,8 @@ class ExerciseIdSubmitBody(object):
         :param files: The files of this ExerciseIdSubmitBody.  # noqa: E501
         :type: str
         """
+        if files is None:
+            raise ValueError("Invalid value for `files`, must not be `None`")  # noqa: E501
 
         self._files = files
 
@@ -123,6 +124,8 @@ class ExerciseIdSubmitBody(object):
         :param runtime_environment_id: The runtime_environment_id of this ExerciseIdSubmitBody.  # noqa: E501
         :type: str
         """
+        if runtime_environment_id is None:
+            raise ValueError("Invalid value for `runtime_environment_id`, must not be `None`")  # noqa: E501
 
         self._runtime_environment_id = runtime_environment_id
 

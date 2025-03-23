@@ -39,8 +39,7 @@ class IdAttachmentfilesBody(object):
         """IdAttachmentfilesBody - a model defined in Swagger"""  # noqa: E501
         self._files = None
         self.discriminator = None
-        if files is not None:
-            self.files = files
+        self.files = files
 
     @property
     def files(self):
@@ -62,6 +61,8 @@ class IdAttachmentfilesBody(object):
         :param files: The files of this IdAttachmentfilesBody.  # noqa: E501
         :type: str
         """
+        if files is None:
+            raise ValueError("Invalid value for `files`, must not be `None`")  # noqa: E501
 
         self._files = files
 

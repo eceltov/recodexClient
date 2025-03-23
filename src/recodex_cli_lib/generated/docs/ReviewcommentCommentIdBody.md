@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**text** | **str** | The comment itself. | [optional] 
+**text** | **str** | The comment itself. | 
 **issue** | **bool** | Whether the comment is an issue (expected to be resolved by the student) | [optional] 
 **suppress_notification** | **bool** | If true, no email notification will be sent (only applies when the review has been closed) | [optional] 
 

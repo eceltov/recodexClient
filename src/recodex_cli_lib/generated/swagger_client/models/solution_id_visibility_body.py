@@ -39,8 +39,7 @@ class SolutionIdVisibilityBody(object):
         """SolutionIdVisibilityBody - a model defined in Swagger"""  # noqa: E501
         self._visibility = None
         self.discriminator = None
-        if visibility is not None:
-            self.visibility = visibility
+        self.visibility = visibility
 
     @property
     def visibility(self):
@@ -62,6 +61,8 @@ class SolutionIdVisibilityBody(object):
         :param visibility: The visibility of this SolutionIdVisibilityBody.  # noqa: E501
         :type: int
         """
+        if visibility is None:
+            raise ValueError("Invalid value for `visibility`, must not be `None`")  # noqa: E501
 
         self._visibility = visibility
 

@@ -59,18 +59,15 @@ class GroupsIdBody(object):
         self.discriminator = None
         if external_id is not None:
             self.external_id = external_id
-        if public_stats is not None:
-            self.public_stats = public_stats
+        self.public_stats = public_stats
         if detaining is not None:
             self.detaining = detaining
-        if is_public is not None:
-            self.is_public = is_public
+        self.is_public = is_public
         if threshold is not None:
             self.threshold = threshold
         if points_limit is not None:
             self.points_limit = points_limit
-        if localized_texts is not None:
-            self.localized_texts = localized_texts
+        self.localized_texts = localized_texts
 
     @property
     def external_id(self):
@@ -115,6 +112,8 @@ class GroupsIdBody(object):
         :param public_stats: The public_stats of this GroupsIdBody.  # noqa: E501
         :type: bool
         """
+        if public_stats is None:
+            raise ValueError("Invalid value for `public_stats`, must not be `None`")  # noqa: E501
 
         self._public_stats = public_stats
 
@@ -161,6 +160,8 @@ class GroupsIdBody(object):
         :param is_public: The is_public of this GroupsIdBody.  # noqa: E501
         :type: bool
         """
+        if is_public is None:
+            raise ValueError("Invalid value for `is_public`, must not be `None`")  # noqa: E501
 
         self._is_public = is_public
 
@@ -230,6 +231,8 @@ class GroupsIdBody(object):
         :param localized_texts: The localized_texts of this GroupsIdBody.  # noqa: E501
         :type: list[object]
         """
+        if localized_texts is None:
+            raise ValueError("Invalid value for `localized_texts`, must not be `None`")  # noqa: E501
 
         self._localized_texts = localized_texts
 

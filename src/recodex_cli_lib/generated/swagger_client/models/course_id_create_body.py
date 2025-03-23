@@ -39,8 +39,7 @@ class CourseIdCreateBody(object):
         """CourseIdCreateBody - a model defined in Swagger"""  # noqa: E501
         self._parent_group_id = None
         self.discriminator = None
-        if parent_group_id is not None:
-            self.parent_group_id = parent_group_id
+        self.parent_group_id = parent_group_id
 
     @property
     def parent_group_id(self):
@@ -60,6 +59,8 @@ class CourseIdCreateBody(object):
         :param parent_group_id: The parent_group_id of this CourseIdCreateBody.  # noqa: E501
         :type: str
         """
+        if parent_group_id is None:
+            raise ValueError("Invalid value for `parent_group_id`, must not be `None`")  # noqa: E501
 
         self._parent_group_id = parent_group_id
 

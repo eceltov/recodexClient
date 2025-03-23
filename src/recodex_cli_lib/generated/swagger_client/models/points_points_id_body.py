@@ -45,10 +45,8 @@ class PointsPointsIdBody(object):
         self._note = None
         self._awarded_at = None
         self.discriminator = None
-        if points is not None:
-            self.points = points
-        if note is not None:
-            self.note = note
+        self.points = points
+        self.note = note
         if awarded_at is not None:
             self.awarded_at = awarded_at
 
@@ -72,6 +70,8 @@ class PointsPointsIdBody(object):
         :param points: The points of this PointsPointsIdBody.  # noqa: E501
         :type: int
         """
+        if points is None:
+            raise ValueError("Invalid value for `points`, must not be `None`")  # noqa: E501
 
         self._points = points
 
@@ -95,6 +95,8 @@ class PointsPointsIdBody(object):
         :param note: The note of this PointsPointsIdBody.  # noqa: E501
         :type: str
         """
+        if note is None:
+            raise ValueError("Invalid value for `note`, must not be `None`")  # noqa: E501
 
         self._note = note
 

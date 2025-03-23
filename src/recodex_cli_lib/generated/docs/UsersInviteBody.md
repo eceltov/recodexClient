@@ -3,10 +3,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**email** | **str** | An email that will serve as a login name | [optional] 
-**first_name** | **str** | First name | [optional] 
-**last_name** | **str** | Last name | [optional] 
-**instance_id** | **str** | Identifier of the instance to register in | [optional] 
+**email** | **str** | An email that will serve as a login name | 
+**first_name** | **str** | First name | 
+**last_name** | **str** | Last name | 
+**instance_id** | **str** | Identifier of the instance to register in | 
 **titles_before_name** | **str** | Titles that are placed before user name | [optional] 
 **titles_after_name** | **str** | Titles that are placed after user name | [optional] 
 **groups** | **list[object]** | List of group IDs in which the user is added right after registration | [optional] 

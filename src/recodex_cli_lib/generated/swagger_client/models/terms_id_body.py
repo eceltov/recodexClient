@@ -45,12 +45,9 @@ class TermsIdBody(object):
         self._end = None
         self._advertise_until = None
         self.discriminator = None
-        if beginning is not None:
-            self.beginning = beginning
-        if end is not None:
-            self.end = end
-        if advertise_until is not None:
-            self.advertise_until = advertise_until
+        self.beginning = beginning
+        self.end = end
+        self.advertise_until = advertise_until
 
     @property
     def beginning(self):
@@ -70,6 +67,8 @@ class TermsIdBody(object):
         :param beginning: The beginning of this TermsIdBody.  # noqa: E501
         :type: int
         """
+        if beginning is None:
+            raise ValueError("Invalid value for `beginning`, must not be `None`")  # noqa: E501
 
         self._beginning = beginning
 
@@ -91,6 +90,8 @@ class TermsIdBody(object):
         :param end: The end of this TermsIdBody.  # noqa: E501
         :type: int
         """
+        if end is None:
+            raise ValueError("Invalid value for `end`, must not be `None`")  # noqa: E501
 
         self._end = end
 
@@ -112,6 +113,8 @@ class TermsIdBody(object):
         :param advertise_until: The advertise_until of this TermsIdBody.  # noqa: E501
         :type: int
         """
+        if advertise_until is None:
+            raise ValueError("Invalid value for `advertise_until`, must not be `None`")  # noqa: E501
 
         self._advertise_until = advertise_until
 

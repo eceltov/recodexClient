@@ -39,8 +39,7 @@ class IdReviewBody(object):
         """IdReviewBody - a model defined in Swagger"""  # noqa: E501
         self._close = None
         self.discriminator = None
-        if close is not None:
-            self.close = close
+        self.close = close
 
     @property
     def close(self):
@@ -62,6 +61,8 @@ class IdReviewBody(object):
         :param close: The close of this IdReviewBody.  # noqa: E501
         :type: bool
         """
+        if close is None:
+            raise ValueError("Invalid value for `close`, must not be `None`")  # noqa: E501
 
         self._close = close
 

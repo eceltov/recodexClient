@@ -48,12 +48,9 @@ class GroupsValidateaddgroupdataBody(object):
         self._instance_id = None
         self._parent_group_id = None
         self.discriminator = None
-        if name is not None:
-            self.name = name
-        if locale is not None:
-            self.locale = locale
-        if instance_id is not None:
-            self.instance_id = instance_id
+        self.name = name
+        self.locale = locale
+        self.instance_id = instance_id
         if parent_group_id is not None:
             self.parent_group_id = parent_group_id
 
@@ -77,6 +74,8 @@ class GroupsValidateaddgroupdataBody(object):
         :param name: The name of this GroupsValidateaddgroupdataBody.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -100,6 +99,8 @@ class GroupsValidateaddgroupdataBody(object):
         :param locale: The locale of this GroupsValidateaddgroupdataBody.  # noqa: E501
         :type: str
         """
+        if locale is None:
+            raise ValueError("Invalid value for `locale`, must not be `None`")  # noqa: E501
 
         self._locale = locale
 
@@ -123,6 +124,8 @@ class GroupsValidateaddgroupdataBody(object):
         :param instance_id: The instance_id of this GroupsValidateaddgroupdataBody.  # noqa: E501
         :type: str
         """
+        if instance_id is None:
+            raise ValueError("Invalid value for `instance_id`, must not be `None`")  # noqa: E501
 
         self._instance_id = instance_id
 

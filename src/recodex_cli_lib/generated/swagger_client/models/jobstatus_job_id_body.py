@@ -42,8 +42,7 @@ class JobstatusJobIdBody(object):
         self._status = None
         self._message = None
         self.discriminator = None
-        if status is not None:
-            self.status = status
+        self.status = status
         if message is not None:
             self.message = message
 
@@ -67,6 +66,8 @@ class JobstatusJobIdBody(object):
         :param status: The status of this JobstatusJobIdBody.  # noqa: E501
         :type: str
         """
+        if status is None:
+            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
 
         self._status = status
 

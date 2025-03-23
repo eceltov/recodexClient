@@ -45,12 +45,9 @@ class GroupattributesGroupIdBody(object):
         self._key = None
         self._value = None
         self.discriminator = None
-        if service is not None:
-            self.service = service
-        if key is not None:
-            self.key = key
-        if value is not None:
-            self.value = value
+        self.service = service
+        self.key = key
+        self.value = value
 
     @property
     def service(self):
@@ -72,6 +69,8 @@ class GroupattributesGroupIdBody(object):
         :param service: The service of this GroupattributesGroupIdBody.  # noqa: E501
         :type: str
         """
+        if service is None:
+            raise ValueError("Invalid value for `service`, must not be `None`")  # noqa: E501
 
         self._service = service
 
@@ -95,6 +94,8 @@ class GroupattributesGroupIdBody(object):
         :param key: The key of this GroupattributesGroupIdBody.  # noqa: E501
         :type: str
         """
+        if key is None:
+            raise ValueError("Invalid value for `key`, must not be `None`")  # noqa: E501
 
         self._key = key
 
@@ -118,6 +119,8 @@ class GroupattributesGroupIdBody(object):
         :param value: The value of this GroupattributesGroupIdBody.  # noqa: E501
         :type: str
         """
+        if value is None:
+            raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
 
         self._value = value
 

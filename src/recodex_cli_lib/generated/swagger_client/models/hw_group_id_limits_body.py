@@ -39,8 +39,7 @@ class HwGroupIdLimitsBody(object):
         """HwGroupIdLimitsBody - a model defined in Swagger"""  # noqa: E501
         self._limits = None
         self.discriminator = None
-        if limits is not None:
-            self.limits = limits
+        self.limits = limits
 
     @property
     def limits(self):
@@ -62,6 +61,8 @@ class HwGroupIdLimitsBody(object):
         :param limits: The limits of this HwGroupIdLimitsBody.  # noqa: E501
         :type: list[object]
         """
+        if limits is None:
+            raise ValueError("Invalid value for `limits`, must not be `None`")  # noqa: E501
 
         self._limits = limits
 

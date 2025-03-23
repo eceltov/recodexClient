@@ -42,10 +42,8 @@ class IdScoreconfigBody(object):
         self._score_calculator = None
         self._score_config = None
         self.discriminator = None
-        if score_calculator is not None:
-            self.score_calculator = score_calculator
-        if score_config is not None:
-            self.score_config = score_config
+        self.score_calculator = score_calculator
+        self.score_config = score_config
 
     @property
     def score_calculator(self):
@@ -67,6 +65,8 @@ class IdScoreconfigBody(object):
         :param score_calculator: The score_calculator of this IdScoreconfigBody.  # noqa: E501
         :type: str
         """
+        if score_calculator is None:
+            raise ValueError("Invalid value for `score_calculator`, must not be `None`")  # noqa: E501
 
         self._score_calculator = score_calculator
 
@@ -90,6 +90,8 @@ class IdScoreconfigBody(object):
         :param score_config: The score_config of this IdScoreconfigBody.  # noqa: E501
         :type: str
         """
+        if score_config is None:
+            raise ValueError("Invalid value for `score_config`, must not be `None`")  # noqa: E501
 
         self._score_config = score_config
 
