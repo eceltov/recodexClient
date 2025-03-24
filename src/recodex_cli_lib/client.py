@@ -12,18 +12,16 @@ class Client:
         config = Configuration()
         config.host = host
         self.generated_client = ApiClient(config, "Authorization", f"Bearer {token}")
-        self.endpoint_resolver = EndpointResolver(self.generated_client)
-        self.api = DefaultApi(self.generated_client)
+        self.generated_api = DefaultApi(self.generated_client)
+        self.endpoint_resolver = EndpointResolver(self.generated_api)
         self.validator = SwaggerValidator(self.endpoint_resolver)
 
-    def send_request(self, operation_id, body={}, path_params={}, query_params={}):
-        endpoint = getattr(self.api, operation_id, None)
-        if endpoint == None:
-            raise ApiException(500, f"Endpoint {operation_id} not found.")
+    def send_request(self, presenter, endpoint, body={}, path_params={}, query_params={}):
+        endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, endpoint)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
-        self.validator.validate(operation_id, body, path_params, query_params)
+        self.validator.validate(presenter, endpoint, body, path_params, query_params)
 
-        endpoint(body=body, **path_params, **query_params)
+        endpoint_callback(body=body, **path_params, **query_params)
         response: RESTResponse = self.generated_client.last_response
         return response

@@ -28,16 +28,5 @@ body = DebugParamBody(
 path_params = { "param":"1" }
 query_params = { "b": False, "c": 5.5 }
 
-# response = client.send_request("registration_presenter_action_debug", body, path_params, query_params)
-# print(response.data)
-
-a = client.endpoint_resolver.alias_container.get_operation_id('registration', 'debug')
-print(a)
-a = client.endpoint_resolver.alias_container.get_operation_id('registration_presenter', 'debug')
-print(a)
-a = client.endpoint_resolver.alias_container.get_operation_id('registration', 'action_debug')
-print(a)
-a = client.endpoint_resolver.alias_container.get_operation_id('registration_presenter', 'action_debug')
-print(a)
-a = client.endpoint_resolver.alias_container.get_operation_id('reg', 'dbg')
-print(a)
+response = client.send_request('reg', 'dbg', body, path_params, query_params)
+print(response.data)

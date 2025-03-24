@@ -5,13 +5,14 @@ from prance import ResolvingParser
 import jsonschema
 from jsonschema import validate
 from .utils import camel_case_to_snake_case
+from .endpoint_resolver import EndpointResolver
 
 class SwaggerValidator:
     def __init__(self, endpoint_resolver):
-        self.endpoint_resolver = endpoint_resolver
+        self.endpoint_resolver: EndpointResolver = endpoint_resolver
 
-    def validate_params(self, operation_id, method, params):
-        definition = self.endpoint_resolver.get_definition_by_operation_id(operation_id)
+    def validate_params(self, presenter, endpoint, method, params):
+        definition = self.endpoint_resolver.get_endpoint_definition(presenter, endpoint)
         param_defs = definition["parameters"]
         for param_def in param_defs:
             # check if correct method
@@ -41,8 +42,8 @@ class SwaggerValidator:
                 refined_dict[key[1:]] = value
         return refined_dict
 
-    def validate_body(self, operation_id, body):
-        definition = self.endpoint_resolver.get_definition_by_operation_id(operation_id)
+    def validate_body(self, presenter, endpoint, body):
+        definition = self.endpoint_resolver.get_endpoint_definition(presenter, endpoint)
         # skip if there is no body definition
         if "requestBody" not in definition:
             return
@@ -50,13 +51,13 @@ class SwaggerValidator:
         schema = definition["requestBody"]["content"]["application/json"]["schema"]
         validate(body, schema)
 
-    def validate(self, operation_id, body={}, path_params={}, query_params={}):
-        self.validate_params(operation_id, "path", path_params)
-        self.validate_params(operation_id, "query", query_params)
+    def validate(self, presenter, endpoint, body={}, path_params={}, query_params={}):
+        self.validate_params(presenter, endpoint, "path", path_params)
+        self.validate_params(presenter, endpoint, "query", query_params)
 
         # convert generated body objects to a dict    
         if type(body) is dict:
             body_dict = body
         else:
             body_dict = self.convert_generated_to_dict(body)
-        self.validate_body(operation_id, body_dict)
+        self.validate_body(presenter, endpoint, body_dict)
