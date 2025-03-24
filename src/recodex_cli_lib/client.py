@@ -5,14 +5,16 @@ from .generated.swagger_client.configuration import Configuration
 from .generated.swagger_client.rest import ApiException
 from .generated.swagger_client.rest import RESTResponse
 from .swagger_validator import SwaggerValidator
+from.endpoint_resolver import EndpointResolver
 
 class Client:
     def __init__(self, token, host):
         config = Configuration()
         config.host = host
         self.generated_client = ApiClient(config, "Authorization", f"Bearer {token}")
+        self.endpoint_resolver = EndpointResolver(self.generated_client)
         self.api = DefaultApi(self.generated_client)
-        self.validator = SwaggerValidator()
+        self.validator = SwaggerValidator(self.endpoint_resolver)
 
     def send_request(self, operation_id, body={}, path_params={}, query_params={}):
         endpoint = getattr(self.api, operation_id, None)
