@@ -22,7 +22,8 @@ client = Client(token, host)
 
 body = DebugParamBody(
     a="tes",
-    d=7.1
+    d=7.1,
+    e=False
 )
 
 path_params = { "param":"1" }
