@@ -20,11 +20,11 @@ host = "http://localhost:4000"
 
 client = Client(token, host)
 
-body = DebugParamBody(
-    a="tes",
-    d=7.1,
-    e=False
-)
+body = {
+    "a": "tes",
+    "d": 7.1,
+    "e": False
+}
 
 path_params = { "param":"1" }
 query_params = { "b": True, "c": 5.5 }
