@@ -13,6 +13,10 @@ class SwaggerValidator:
 
     def validate_params(self, presenter, endpoint, method, params):
         definition = self.endpoint_resolver.get_endpoint_definition(presenter, endpoint)
+        # skip validation if the endpoint does not expect any
+        if "parameters" not in definition:
+            return
+        
         param_defs = definition["parameters"]
         for param_def in param_defs:
             # check if correct method

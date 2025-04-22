@@ -1,4 +1,4 @@
-from __future__ import print_function
+import json
 from .generated.swagger_client import ApiClient
 from .generated.swagger_client import DefaultApi
 from .generated.swagger_client.configuration import Configuration
@@ -23,6 +23,19 @@ class Client:
             if value == True or value == False:
                 params[key] = str(value).lower()
 
+    def get_login_token(self, username, password):
+        response = self.send_request("login", "default", {
+            "username": username,
+            "password": password,
+        })
+        response_dict = json.loads(response.data.decode("utf-8"))
+        return response_dict["payload"]["accessToken"]
+
+    def get_refresh_token(self):
+        response = self.send_request("login", "refresh")
+        response_dict = json.loads(response.data.decode("utf-8"))
+        return response_dict["payload"]["accessToken"]
+
     def send_request(self, presenter, endpoint, body={}, path_params={}, query_params={}):
         endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, endpoint)
 
@@ -33,6 +46,11 @@ class Client:
         self.fix_boolean_url_params(path_params)
         self.fix_boolean_url_params(query_params)
 
-        endpoint_callback(body=body, **path_params, **query_params)
+        # the endpoints must not have the body param passed if empty
+        if bool(body):
+            endpoint_callback(body=body, **path_params, **query_params)
+        else:
+            endpoint_callback(**path_params, **query_params)
+
         response: RESTResponse = self.generated_client.last_response
         return response
