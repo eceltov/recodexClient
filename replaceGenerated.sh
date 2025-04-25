@@ -8,7 +8,7 @@ cd ../api
 ./generate-swagger > ../swagger.yaml
 
 echo "Generating new client code"
-cd ../recodexClient
+cd ../recodexLib
 ./generate.sh
 
 echo "Moving new generated client"
