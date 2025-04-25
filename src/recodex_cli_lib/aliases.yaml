@@ -1,4 +1,4 @@
 registration:
     alias: reg
     endpoints:
-        debug: dbg
+        create_invitation: inv
