@@ -1,4 +1,4 @@
 registration:
     alias: reg
-    endpoints:
+    handlers:
         create_invitation: inv

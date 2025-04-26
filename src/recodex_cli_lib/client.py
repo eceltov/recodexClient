@@ -36,11 +36,11 @@ class Client:
         response_dict = json.loads(response.data.decode("utf-8"))
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter, endpoint, body={}, path_params={}, query_params={}):
-        endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, endpoint)
+    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}):
+        endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, handler)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
-        self.validator.validate(presenter, endpoint, body, path_params, query_params)
+        self.validator.validate(presenter, handler, body, path_params, query_params)
 
         # convert boolean values to strings to avoid urllib errors
         self.fix_boolean_url_params(path_params)

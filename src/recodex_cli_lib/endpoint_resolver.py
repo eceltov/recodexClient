@@ -58,11 +58,11 @@ class EndpointResolver:
             if 'alias' in presenter_alias_obj:
                 self.alias_container.add_presenter_alias(presenter, presenter_alias_obj['alias'])
 
-            if 'endpoints' not in presenter_alias_obj:
+            if 'handlers' not in presenter_alias_obj:
                 continue
 
-            for endpoint, endpoint_alias in presenter_alias_obj['endpoints'].items():
-                self.alias_container.add_endpoint_alias(presenter, endpoint, endpoint_alias)
+            for handler, handler_alias in presenter_alias_obj['handlers'].items():
+                self.alias_container.add_handler_alias(presenter, handler, handler_alias)
 
     def get_swagger(self) -> str:
         """Reads the current swagger specification file and returns it.
@@ -74,13 +74,13 @@ class EndpointResolver:
         with open(filepath, "r") as handle:
             return handle.read()
 
-    def get_endpoint_callback(self, presenter, endpoint):
-        operation_id = self.alias_container.get_operation_id(presenter, endpoint)
+    def get_endpoint_callback(self, presenter, handler):
+        operation_id = self.alias_container.get_operation_id(presenter, handler)
         endpoint_callback = getattr(self.generated_api, operation_id, None)
         if endpoint_callback == None:
             raise ApiException(500, f"Endpoint {operation_id} not found.")
         return endpoint_callback
 
-    def get_endpoint_definition(self, presenter, endpoint):
-        operation_id = self.alias_container.get_operation_id(presenter, endpoint)
+    def get_endpoint_definition(self, presenter, handler):
+        operation_id = self.alias_container.get_operation_id(presenter, handler)
         return self.definitions[operation_id]

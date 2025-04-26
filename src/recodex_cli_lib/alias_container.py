@@ -7,26 +7,26 @@ class AliasContainer:
         self.__init_default_aliases()
 
     def __init_raw_resolve_dict(self):
-        # create a map from raw (with the 'presenter'/'action' prefix/suffix) presenter names to endpoints
-        raw_presenter_to_endpoint_map: dict[str, list[str]] = {}
+        # create a map from raw (with the 'presenter'/'action' prefix/suffix) presenter names to handlers
+        raw_presenter_to_handler_map: dict[str, list[str]] = {}
         for operation_id in self.definitions.keys():
             presenter_pos = operation_id.find(self.__presenter_suffix)
             if presenter_pos == -1:
                 raise RuntimeError(f"The operationId '{operation_id}' does not contain the '{self.__presenter_suffix}' substring")
 
             presenter_name = operation_id[0 : presenter_pos] + self.__presenter_suffix
-            endpoint_name = operation_id[presenter_pos + len(self.__presenter_suffix) + 1 :]
+            handler_name = operation_id[presenter_pos + len(self.__presenter_suffix) + 1 :]
 
-            if presenter_name in raw_presenter_to_endpoint_map:
-                raw_presenter_to_endpoint_map[presenter_name].append(endpoint_name)
+            if presenter_name in raw_presenter_to_handler_map:
+                raw_presenter_to_handler_map[presenter_name].append(handler_name)
             else:
-                raw_presenter_to_endpoint_map[presenter_name] = [ endpoint_name ]
-        self.raw_presenter_to_endpoint_map = raw_presenter_to_endpoint_map
+                raw_presenter_to_handler_map[presenter_name] = [ handler_name ]
+        self.raw_presenter_to_handler_map = raw_presenter_to_handler_map
 
     def __init_default_aliases(self):
         # maps aliases to raw presenter name
         presenter_aliases: dict[str, str] = {}
-        for presenter_name in self.raw_presenter_to_endpoint_map.keys():
+        for presenter_name in self.raw_presenter_to_handler_map.keys():
             # keep the raw name as a valid alias
             presenter_aliases[presenter_name] = presenter_name
 
@@ -35,31 +35,31 @@ class AliasContainer:
             presenter_aliases[shortened_name] = presenter_name
         self.presenter_aliases = presenter_aliases
 
-        # maps raw presenter names to a dict from endpoint aliases to raw endpoint names
-        endpoint_aliases: dict[str, dict[str, str]] = {}
-        for presenter_name, endpoint_names in self.raw_presenter_to_endpoint_map.items():
+        # maps raw presenter names to a dict from handler aliases to raw handler names
+        handler_aliases: dict[str, dict[str, str]] = {}
+        for presenter_name, handler_names in self.raw_presenter_to_handler_map.items():
             aliases = {}
-            for endpoint_name in endpoint_names:
+            for handler_name in handler_names:
                 # keep the raw name as a valid alias
-                aliases[endpoint_name] = endpoint_name
+                aliases[handler_name] = handler_name
 
                 # add raw name without the 'action_' prefix
-                shortened_name = endpoint_name[len('action_') :]
-                aliases[shortened_name] = endpoint_name
-            endpoint_aliases[presenter_name] = aliases
-        self.endpoint_aliases = endpoint_aliases
+                shortened_name = handler_name[len('action_') :]
+                aliases[shortened_name] = handler_name
+            handler_aliases[presenter_name] = aliases
+        self.handler_aliases = handler_aliases
 
     def __get_raw_presenter_name_or_throw(self, presenter):
         if presenter not in self.presenter_aliases:
             raise RuntimeError(f"'{presenter}' is not a known presenter name or alias.")
         return self.presenter_aliases[presenter]
 
-    def __get_raw_endpoint_name_or_throw(self, presenter, endpoint):
+    def __get_raw_handler_name_or_throw(self, presenter, handler):
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
-        aliases = self.endpoint_aliases[raw_presenter_name]
-        if endpoint not in aliases:
-            raise RuntimeError(f"'{endpoint}' is not a known endpoint name or alias.")
-        return aliases[endpoint]
+        aliases = self.handler_aliases[raw_presenter_name]
+        if handler not in aliases:
+            raise RuntimeError(f"'{handler}' is not a known handler name or alias.")
+        return aliases[handler]
 
     def add_presenter_alias(self, presenter, alias):
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
@@ -72,19 +72,19 @@ class AliasContainer:
         self.presenter_aliases[alias] = raw_presenter_name
 
 
-    def add_endpoint_alias(self, presenter, endpoint, alias):
+    def add_handler_alias(self, presenter, handler, alias):
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
-        raw_endpoint_name = self.__get_raw_endpoint_name_or_throw(presenter, endpoint)
-        aliases = self.endpoint_aliases[raw_presenter_name]
+        raw_handler_name = self.__get_raw_handler_name_or_throw(presenter, handler)
+        aliases = self.handler_aliases[raw_presenter_name]
 
         if alias in aliases:
-            raise RuntimeError(f"The endpoint alias '{alias}' is already registered"
-                + f"for the '{aliases[alias]}' endpoint")
+            raise RuntimeError(f"The handler alias '{alias}' is already registered"
+                + f"for the '{aliases[alias]}' handler")
         
-        # the value has to be the raw endpoint name
-        aliases[alias] = raw_endpoint_name
+        # the value has to be the raw handler name
+        aliases[alias] = raw_handler_name
 
-    def get_operation_id(self, presenter, endpoint):
+    def get_operation_id(self, presenter, handler):
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
-        raw_endpoint_name = self.__get_raw_endpoint_name_or_throw(presenter, endpoint)
-        return f"{raw_presenter_name}_{raw_endpoint_name}"
+        raw_handler_name = self.__get_raw_handler_name_or_throw(presenter, handler)
+        return f"{raw_presenter_name}_{raw_handler_name}"
