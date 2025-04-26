@@ -22,10 +22,13 @@ class EndpointResolver:
         # init the alias container and add user aliases
         self.__init_aliases()        
 
-    def __load_spec(self):
+    def __get_spec_path(self):
         # the swagger is located in the 'generated' folder
         dirname = os.path.dirname(__file__)
-        filepath = os.path.join(dirname, 'generated/swagger.yaml')
+        return os.path.join(dirname, 'generated/swagger.yaml')
+
+    def __load_spec(self):
+        filepath = self.__get_spec_path()
         parser = ResolvingParser(filepath, backend='openapi-spec-validator')
         self.spec = parser.specification
 
@@ -60,6 +63,16 @@ class EndpointResolver:
 
             for endpoint, endpoint_alias in presenter_alias_obj['endpoints'].items():
                 self.alias_container.add_endpoint_alias(presenter, endpoint, endpoint_alias)
+
+    def get_swagger(self) -> str:
+        """Reads the current swagger specification file and returns it.
+
+        Returns:
+            str: Returns the content of the swagger specification file.
+        """
+        filepath = self.__get_spec_path()
+        with open(filepath, "r") as handle:
+            return handle.read()
 
     def get_endpoint_callback(self, presenter, endpoint):
         operation_id = self.alias_container.get_operation_id(presenter, endpoint)
