@@ -26,6 +26,8 @@ class AliasContainer:
     def __init_default_aliases(self):
         # maps aliases to raw presenter name
         presenter_aliases: dict[str, str] = {}
+        # a list of presenter names without the '_presenter' suffix (used in 'did you mean... error messages')
+        base_presenter_aliases: list[str] = []
         for presenter_name in self.raw_presenter_to_handler_map.keys():
             # keep the raw name as a valid alias
             presenter_aliases[presenter_name] = presenter_name
@@ -33,12 +35,18 @@ class AliasContainer:
             # add raw name without the '_presenter' suffix
             shortened_name = presenter_name[: -len(self.__presenter_suffix)]
             presenter_aliases[shortened_name] = presenter_name
+
+            base_presenter_aliases.append(shortened_name)
         self.presenter_aliases = presenter_aliases
+        self.base_presenter_aliases = base_presenter_aliases
 
         # maps raw presenter names to a dict from handler aliases to raw handler names
         handler_aliases: dict[str, dict[str, str]] = {}
+        # maps raw presenter names to a list of handler aliases without the 'action_' prefix
+        base_handler_aliases: dict[str, list[str]] = {}
         for presenter_name, handler_names in self.raw_presenter_to_handler_map.items():
             aliases = {}
+            base_aliases = []
             for handler_name in handler_names:
                 # keep the raw name as a valid alias
                 aliases[handler_name] = handler_name
@@ -46,19 +54,29 @@ class AliasContainer:
                 # add raw name without the 'action_' prefix
                 shortened_name = handler_name[len('action_') :]
                 aliases[shortened_name] = handler_name
+
+                base_aliases.append(shortened_name)
             handler_aliases[presenter_name] = aliases
+            base_handler_aliases[presenter_name] = base_aliases
         self.handler_aliases = handler_aliases
+        self.base_handler_aliases = base_handler_aliases
 
     def __get_raw_presenter_name_or_throw(self, presenter):
         if presenter not in self.presenter_aliases:
-            raise RuntimeError(f"'{presenter}' is not a known presenter name or alias.")
+            msg = f"'{presenter}' is not a known presenter name or alias. Use one of the presenters below:"
+            for presenter_alias in self.base_presenter_aliases:
+                msg += f"\n{presenter_alias}"
+            raise RuntimeError(msg)
         return self.presenter_aliases[presenter]
 
     def __get_raw_handler_name_or_throw(self, presenter, handler):
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
         aliases = self.handler_aliases[raw_presenter_name]
         if handler not in aliases:
-            raise RuntimeError(f"'{handler}' is not a known handler name or alias.")
+            msg = f"'{handler}' is not a known handler name or alias. Use one of the handlers below:"
+            for handler_alias in self.base_handler_aliases[raw_presenter_name]:
+                msg += f"\n{handler_alias}"
+            raise RuntimeError(msg)
         return aliases[handler]
 
     def add_presenter_alias(self, presenter, alias):
