@@ -1,15 +1,13 @@
 import os
 import yaml
-from .utils import camel_case_to_snake_case
 from prance import ResolvingParser
+from .utils import camel_case_to_snake_case
 from .generated.swagger_client import ApiClient
 from .generated.swagger_client.rest import ApiException
 from .alias_container import AliasContainer
 
 class EndpointResolver:
-    def __init__(self, generated_api):
-        self.generated_api: ApiClient = generated_api
-
+    def __init__(self):
         # load aliases.yaml
         self.__load_user_aliases()
 
@@ -74,13 +72,13 @@ class EndpointResolver:
         with open(filepath, "r") as handle:
             return handle.read()
 
-    def get_endpoint_callback(self, presenter, handler):
+    def get_endpoint_callback(self, presenter: str, handler: str, generated_api: ApiClient):
         operation_id = self.alias_container.get_operation_id(presenter, handler)
-        endpoint_callback = getattr(self.generated_api, operation_id, None)
+        endpoint_callback = getattr(generated_api, operation_id, None)
         if endpoint_callback == None:
             raise ApiException(500, f"Endpoint {operation_id} not found.")
         return endpoint_callback
 
-    def get_endpoint_definition(self, presenter, handler):
+    def get_endpoint_definition(self, presenter: str, handler: str) -> dict:
         operation_id = self.alias_container.get_operation_id(presenter, handler)
         return self.definitions[operation_id]

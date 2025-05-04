@@ -4,20 +4,14 @@ import jsonschema.exceptions
 from prance import ResolvingParser
 import jsonschema
 from jsonschema import validate
-from .utils import camel_case_to_snake_case
-from .endpoint_resolver import EndpointResolver
 
 class SwaggerValidator:
-    def __init__(self, endpoint_resolver):
-        self.endpoint_resolver: EndpointResolver = endpoint_resolver
-
-    def validate_params(self, presenter, handler, method, params):
-        definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
+    def validate_params(self, endpoint_definition, method, params):
         # skip validation if the endpoint does not expect any
-        if "parameters" not in definition:
+        if "parameters" not in endpoint_definition:
             return
         
-        param_defs = definition["parameters"]
+        param_defs = endpoint_definition["parameters"]
         for param_def in param_defs:
             # check if correct method
             if method != param_def["in"]:
@@ -46,22 +40,21 @@ class SwaggerValidator:
                 refined_dict[key[1:]] = value
         return refined_dict
 
-    def validate_body(self, presenter, handler, body):
-        definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
+    def validate_body(self, endpoint_definition: dict, body):
         # skip if there is no body definition
-        if "requestBody" not in definition:
+        if "requestBody" not in endpoint_definition:
             return
       
-        schema = definition["requestBody"]["content"]["application/json"]["schema"]
+        schema = endpoint_definition["requestBody"]["content"]["application/json"]["schema"]
         validate(body, schema)
 
-    def validate(self, presenter, handler, body={}, path_params={}, query_params={}):
-        self.validate_params(presenter, handler, "path", path_params)
-        self.validate_params(presenter, handler, "query", query_params)
+    def validate(self, endpoint_definition: dict, body={}, path_params={}, query_params={}):
+        self.validate_params(endpoint_definition, "path", path_params)
+        self.validate_params(endpoint_definition, "query", query_params)
 
         # convert generated body objects to a dict    
         if type(body) is dict:
             body_dict = body
         else:
             body_dict = self.convert_generated_to_dict(body)
-        self.validate_body(presenter, handler, body_dict)
+        self.validate_body(endpoint_definition, body_dict)

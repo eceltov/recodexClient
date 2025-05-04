@@ -13,17 +13,17 @@ class Client:
         config.host = host
         self.generated_client = ApiClient(config, "Authorization", f"Bearer {token}")
         self.generated_api = DefaultApi(self.generated_client)
-        self.endpoint_resolver = EndpointResolver(self.generated_api)
-        self.validator = SwaggerValidator(self.endpoint_resolver)
+        self.endpoint_resolver = EndpointResolver()
+        self.validator = SwaggerValidator()
 
     # converts boolean values of the dict to 'true' or 'false'
     # the urllib.urlencode function used converts bools to 'True' or 'False', which causes an error on the endpoint
-    def fix_boolean_url_params(self, params: dict):
+    def __fix_boolean_url_params(self, params: dict):
         for key, value in params.items():
             if value == True or value == False:
                 params[key] = str(value).lower()
 
-    def get_login_token(self, username, password):
+    def __get_login_token(self, username, password):
         response = self.send_request("login", "default", {
             "username": username,
             "password": password,
@@ -31,20 +31,22 @@ class Client:
         response_dict = json.loads(response.data.decode("utf-8"))
         return response_dict["payload"]["accessToken"]
 
-    def get_refresh_token(self):
+    def __get_refresh_token(self):
         response = self.send_request("login", "refresh")
         response_dict = json.loads(response.data.decode("utf-8"))
         return response_dict["payload"]["accessToken"]
 
     def send_request(self, presenter, handler, body={}, path_params={}, query_params={}):
-        endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, handler)
+        endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
-        self.validator.validate(presenter, handler, body, path_params, query_params)
+        self.validator.validate(endpoint_definition, body, path_params, query_params)
 
         # convert boolean values to strings to avoid urllib errors
-        self.fix_boolean_url_params(path_params)
-        self.fix_boolean_url_params(query_params)
+        self.__fix_boolean_url_params(path_params)
+        self.__fix_boolean_url_params(query_params)
+
+        endpoint_callback = self.endpoint_resolver.get_endpoint_callback(presenter, handler, self.generated_api)
 
         # the endpoints must not have the body param passed if empty
         if bool(body):
