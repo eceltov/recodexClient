@@ -82,3 +82,22 @@ class EndpointResolver:
     def get_endpoint_definition(self, presenter: str, handler: str) -> dict:
         operation_id = self.alias_container.get_operation_id(presenter, handler)
         return self.definitions[operation_id]
+
+    def get_presenters(self) -> list[str]:
+        """Returns a list of presenters in snake case without the '_presenter' suffix.
+
+        Returns:
+            list[str]: Returns a list of presenters in snake case without the '_presenter' suffix.
+        """
+        return self.alias_container.get_presenters()
+    
+    def get_handlers(self, presenter) -> list[str]:
+        """Returns a list of handlers in snake case without the 'action_' prefix.
+
+        Args:
+            presenter (str): The presenter containing the handlers. Can be any presenter alias.
+
+        Returns:
+            list[str]: Returns a list of handlers in snake case without the 'action_' prefix.
+        """
+        return self.alias_container.get_handlers(presenter)

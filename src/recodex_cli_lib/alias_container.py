@@ -106,3 +106,23 @@ class AliasContainer:
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
         raw_handler_name = self.__get_raw_handler_name_or_throw(presenter, handler)
         return f"{raw_presenter_name}_{raw_handler_name}"
+
+    def get_presenters(self) -> list[str]:
+        """Returns a list of presenters in snake case without the '_presenter' suffix.
+
+        Returns:
+            list[str]: Returns a list of presenters in snake case without the '_presenter' suffix.
+        """
+        return self.base_presenter_aliases
+
+    def get_handlers(self, presenter: str) -> list[str]:
+        """Returns a list of handlers in snake case without the 'action_' prefix.
+
+        Args:
+            presenter (str): The presenter containing the handlers. Can be any presenter alias.
+
+        Returns:
+            list[str]: Returns a list of handlers in snake case without the 'action_' prefix.
+        """
+        base_presenter = self.__get_raw_presenter_name_or_throw(presenter)
+        return self.base_handler_aliases[base_presenter]
