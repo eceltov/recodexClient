@@ -82,6 +82,68 @@ class EndpointResolver:
     def get_endpoint_definition(self, presenter: str, handler: str) -> dict:
         operation_id = self.alias_container.get_operation_id(presenter, handler)
         return self.definitions[operation_id]
+    
+    def endpoint_has_body(self, presenter: str, handler: str) -> bool:
+        """Returns whether an endpoint request expects a body.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+
+        Returns:
+            bool: Returns whether an endpoint request expects a body.
+        """
+        definition = self.get_endpoint_definition(presenter, handler)
+        return "requestBody" in definition
+    
+    def get_endpoint_params(self, presenter: str, handler: str, method: str) -> list[dict]:
+        """Returns a list of endpoint parameters matching the selected method.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+            method (str): Either 'path' or 'query'.
+
+        Returns:
+            list[dict]: Returns a list of endpoint parameters matching the selected method.
+        """
+        definition = self.get_endpoint_definition(presenter, handler)
+
+        if "parameters" not in definition:
+            return []
+        
+        # filter params by method
+        param_defs_filtered = []
+        param_defs = definition["parameters"]
+        for param_def in param_defs:
+            if method.lower() == param_def["in"]:
+                param_defs_filtered.append(param_def)
+
+        return param_defs_filtered
+    
+    def get_path_params(self, presenter: str, handler: str) -> list[dict]:
+        """Returns a list of endpoint path parameters.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+
+        Returns:
+            list[dict]: Returns a list of endpoint path parameters.
+        """
+        return self.get_endpoint_params(presenter, handler, 'path')
+    
+    def get_query_params(self, presenter: str, handler: str) -> list[dict]:
+        """Returns a list of endpoint query parameters.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+
+        Returns:
+            list[dict]: Returns a list of endpoint query parameters.
+        """
+        return self.get_endpoint_params(presenter, handler, 'query')
 
     def get_presenters(self) -> list[str]:
         """Returns a list of presenters in snake case without the '_presenter' suffix.
