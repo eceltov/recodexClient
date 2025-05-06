@@ -11,9 +11,15 @@ class ClientResponse():
         self.headers = response.getheaders()
         self.data = response.data.decode("utf-8")
 
-    def is_data_valid_json(self):
+    def get_json_data(self) -> dict|bool:
+        """Parses response payload as a JSON string.
+
+        Returns:
+            dict|bool: A dictionary constructed from the payload, or False if the data is not in JSON format.
+        """
         try:
-            json.loads(self.data)
-            return True
+            return json.loads(self.data)
         except:
             return False
+
+        
