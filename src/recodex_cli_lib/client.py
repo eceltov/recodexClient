@@ -6,6 +6,7 @@ from .generated.swagger_client.rest import ApiException
 from .generated.swagger_client.rest import RESTResponse
 from .swagger_validator import SwaggerValidator
 from .endpoint_resolver import EndpointResolver
+from .client_response import ClientResponse
 
 class Client:
     def __init__(self, token, host):
@@ -23,7 +24,7 @@ class Client:
             if value == True or value == False:
                 params[key] = str(value).lower()
 
-    def __get_login_token(self, username, password):
+    def get_login_token(self, username, password):
         response = self.send_request("login", "default", {
             "username": username,
             "password": password,
@@ -31,12 +32,12 @@ class Client:
         response_dict = json.loads(response.data.decode("utf-8"))
         return response_dict["payload"]["accessToken"]
 
-    def __get_refresh_token(self):
+    def get_refresh_token(self):
         response = self.send_request("login", "refresh")
         response_dict = json.loads(response.data.decode("utf-8"))
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}):
+    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}) -> ClientResponse:
         endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
@@ -54,5 +55,7 @@ class Client:
         else:
             endpoint_callback(**path_params, **query_params)
 
-        response: RESTResponse = self.generated_client.last_response
+        raw_response: RESTResponse = self.generated_client.last_response
+        response = ClientResponse(raw_response)
+
         return response

@@ -70,7 +70,7 @@ def __create_user_context(api_url: str, username: str, password: str, verbose=Fa
     
     if verbose:
         typer.echo("Connecting...")
-    token = client.__get_login_token(username, password)
+    token = client.get_login_token(username, password)
     user_context = UserContext(api_url, token)
 
     user_context.store(context_path)
@@ -93,7 +93,7 @@ def __create_client(user_context: UserContext) -> Client:
 
     # refresh token if necessary
     if user_context.is_token_almost_expired():
-        user_context = user_context.replace_token(client.__get_refresh_token())
+        user_context = user_context.replace_token(client.get_refresh_token())
         user_context.store(context_path)
         # recreate client
         client = Client(user_context.api_token, user_context.api_url)
