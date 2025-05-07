@@ -27,6 +27,7 @@ echo "Moving new generated client"
 mv ../generated src/recodex_cli_lib/generated
 
 # make import adjustments in the generated code
+#TODO: improve this doc string
 sed -i 's/\bswagger_client\b/..swagger_client/g' src/recodex_cli_lib/generated/swagger_client/__init__.py
 sed -i 's/import swagger_client\.models/from swagger_client import models/g' src/recodex_cli_lib/generated/swagger_client/api_client.py
 sed -i 's/\bswagger_client\.models\b/models/g' src/recodex_cli_lib/generated/swagger_client/api_client.py

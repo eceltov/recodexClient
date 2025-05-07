@@ -44,6 +44,13 @@ class EndpointResolver:
         for path, path_body in self.spec["paths"].items():
             for method, method_body in path_body.items():
                 method_body["method"] = method
+
+                # add snake case names used by the endpoint functions                
+                if "parameters" in method_body:
+                    param_defs = method_body["parameters"]
+                    for param_def in param_defs:
+                        param_def["python_name"] = camel_case_to_snake_case(param_def["name"])
+
                 operation_id = method_body["operationId"]
                 snake_case_operation_id = camel_case_to_snake_case(operation_id)
                 self.definitions[snake_case_operation_id] = method_body
@@ -144,6 +151,23 @@ class EndpointResolver:
             list[dict]: Returns a list of endpoint query parameters.
         """
         return self.get_endpoint_params(presenter, handler, 'query')
+
+    def get_query_param(self, presenter: str, handler: str, param_name: str) -> dict|None:
+        """Returns a specific endpoint query parameter or None if not found.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+            param_name (str): Name of a query parameter.
+
+        Returns:
+            Returns a specific endpoint query parameter or None if not found.
+        """
+        query_params = self.get_query_params(presenter, handler)
+        for query_param in query_params:
+            if query_param["name"] == param_name or query_param["python_name"] == param_name:
+                return query_param
+        return None
 
     def get_presenters(self) -> list[str]:
         """Returns a list of presenters in snake case without the '_presenter' suffix.
