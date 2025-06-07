@@ -1,30 +1,25 @@
 #!/bin/bash
 
-. .conf
+# path to swagger-codegen (https://github.com/swagger-api/swagger-codegen/tree/3.0.0)
+swaggerCodegenPath=../swagger-codegen
+
+# path to swagger specification file in the ReCodEx api repository
+recodexSwaggerDocsPath=../api/docs/swagger.yaml
+
+# path to the generated code
+generatedPath=./src/recodex_cli_lib/generated
 
 echo "Removing old generated code"
-rm -r src/recodex_cli_lib/generated
-
-echo "Generating new swagger document"
-cd ../api
-./generate-swagger > ../swagger.yaml
+rm -r $generatedPath
 
 echo "Generating new client code"
-cd ../recodexLib
-# create output folder
-mkdir -p $outPath
-
-# generate code
 java -jar "$swaggerCodegenPath/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar" generate \
-   -i $swaggerSpecPath \
+   -i $recodexSwaggerDocsPath \
    -l python \
-   -o $outPath
+   -o $generatedPath
 
 # copy the swagger spec
-cp $swaggerSpecPath "$outPath/$outSwaggerSpecName"
-
-echo "Moving new generated client"
-mv ../generated src/recodex_cli_lib/generated
+cp $recodexSwaggerDocsPath "$generatedPath/swagger.yaml"
 
 # make import adjustments in the generated code
 #TODO: improve this doc string
