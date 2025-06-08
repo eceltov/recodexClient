@@ -1,4 +1,5 @@
 import json
+import yaml
 
 from .generated.swagger_client.rest import RESTResponse
 
@@ -11,15 +12,27 @@ class ClientResponse():
         self.headers = response.getheaders()
         self.data = response.data.decode("utf-8")
 
-    def get_json_data(self) -> dict|bool:
+    def __get_parsed_data_or_throw(self) -> dict:
+        return json.loads(self.data)
+    
+    def get_parsed_data(self) -> dict | bool:
         """Parses response payload as a JSON string.
 
         Returns:
             dict|bool: A dictionary constructed from the payload, or False if the data is not in JSON format.
         """
         try:
-            return json.loads(self.data)
+            return self.__get_parsed_data_or_throw()
         except:
             return False
-
         
+
+    def get_json_string(self, minimized: bool = False) -> str:
+        if minimized:
+            return self.data
+        return json.dumps(self.__get_parsed_data_or_throw(), indent=2, ensure_ascii=False)
+    
+    def get_yaml_string(self, minimized: bool = False) -> str:
+        if minimized:
+            return yaml.dump(self.__get_parsed_data_or_throw(), default_flow_style=True, indent=None, allow_unicode=True)
+        return yaml.dump(self.__get_parsed_data_or_throw(), allow_unicode=True, indent=2)

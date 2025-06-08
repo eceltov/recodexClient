@@ -29,12 +29,12 @@ class Client:
             "username": username,
             "password": password,
         })
-        response_dict = response.get_json_data()
+        response_dict = response.get_parsed_data()
         return response_dict["payload"]["accessToken"]
 
     def get_refresh_token(self):
         response = self.send_request("login", "refresh")
-        response_dict = response.get_json_data()
+        response_dict = response.get_parsed_data()
         return response_dict["payload"]["accessToken"]
 
     def send_request(self, presenter, handler, body={}, path_params={}, query_params={}) -> ClientResponse:
