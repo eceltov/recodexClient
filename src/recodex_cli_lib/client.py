@@ -37,7 +37,7 @@ class Client:
         response_dict = response.get_parsed_data()
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}) -> ClientResponse:
+    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}, files={}) -> ClientResponse:
         endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
@@ -51,9 +51,9 @@ class Client:
 
         # the endpoints must not have the body param passed if empty
         if bool(body):
-            endpoint_callback(body=body, **path_params, **query_params)
+            endpoint_callback(body=body, **path_params, **query_params, **files)
         else:
-            endpoint_callback(**path_params, **query_params)
+            endpoint_callback(**path_params, **query_params, **files)
 
         raw_response: RESTResponse = self.generated_client.last_response
         response = ClientResponse(raw_response)

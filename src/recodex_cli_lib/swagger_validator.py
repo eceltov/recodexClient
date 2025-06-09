@@ -45,8 +45,11 @@ class SwaggerValidator:
         if "requestBody" not in endpoint_definition:
             return
       
-        schema = endpoint_definition["requestBody"]["content"]["application/json"]["schema"]
-        validate(body, schema)
+        content = endpoint_definition["requestBody"]["content"]
+        # validate json bodies, do not validate uploaded files
+        if "application/json" in content:
+            schema = content["application/json"]["schema"]
+            validate(body, schema)
 
     def validate(self, endpoint_definition: dict, body={}, path_params={}, query_params={}):
         self.validate_params(endpoint_definition, "path", path_params)
