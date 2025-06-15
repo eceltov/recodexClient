@@ -24,7 +24,7 @@ class Client:
             if value == True or value == False:
                 params[key] = str(value).lower()
 
-    def get_login_token(self, username, password):
+    def get_login_token(self, username: str, password: str):
         response = self.send_request("login", "default", {
             "username": username,
             "password": password,
@@ -37,11 +37,14 @@ class Client:
         response_dict = response.get_parsed_data()
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter, handler, body={}, path_params={}, query_params={}, files={}) -> ClientResponse:
+    def send_request(self, presenter: str, handler: str, body={}, path_params={}, query_params={}, files={}, raw_body=False) -> ClientResponse:
         endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
 
-        # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
-        self.validator.validate(endpoint_definition, body, path_params, query_params)
+        if raw_body:
+            self.validator.validate(endpoint_definition, path_params=path_params, query_params=query_params)
+        else:
+            # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
+            self.validator.validate(endpoint_definition, body, path_params, query_params)
 
         # convert boolean values to strings to avoid urllib errors
         self.__fix_boolean_url_params(path_params)
