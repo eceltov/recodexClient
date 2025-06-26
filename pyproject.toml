@@ -3,20 +3,22 @@ requires = [
   "setuptools>=61.0",
   "certifi>=14.05.14",
   "six>=1.10",
-  "python_dateutil>=2.5.3",
-  "urllib3>=1.15.1",
+  "python_dateutil>=2.8.2",
+  "urllib3>=2.1.0,<3.0.0",
   "prance>=23.6.21.0",
   "openapi-spec-validator>=0.7.1",
   "jsonschema>=4.23.0",
   "pyyaml>=5.2b1",
   "appdirs>=1.4.4",
-  "pyjwt>=2.10.1"
+  "pyjwt>=2.10.1",
+  "pydantic>=2",
+  "typing-extensions>=4.7.1",
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "recodex_cli_lib_eceltov"
-version = "0.0.46"
+version = "0.0.52"
 authors = [
   { name="Vojtech Kloda", email="vojtech.kloda@gmail.com" },
 ]
@@ -32,14 +34,16 @@ dependencies = [
   "setuptools>=61.0",
   "certifi>=14.05.14",
   "six>=1.10",
-  "python_dateutil>=2.5.3",
-  "urllib3>=1.15.1",
+  "python_dateutil>=2.8.2",
+  "urllib3>=2.1.0,<3.0.0",
   "prance>=23.6.21.0",
   "openapi-spec-validator>=0.7.1",
   "jsonschema>=4.23.0",
   "pyyaml>=5.2b1",
   "appdirs>=1.4.4",
-  "pyjwt>=2.10.1"
+  "pyjwt>=2.10.1",
+  "pydantic>=2",
+  "typing-extensions>=4.7.1",
 ]
 
 [project.urls]

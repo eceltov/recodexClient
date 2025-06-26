@@ -1,9 +1,8 @@
 import json
-from .generated.swagger_client import ApiClient
-from .generated.swagger_client import DefaultApi
-from .generated.swagger_client.configuration import Configuration
-from .generated.swagger_client.rest import ApiException
-from .generated.swagger_client.rest import RESTResponse
+from urllib3.response import HTTPResponse
+from .generated.openapi_client import ApiClient
+from .generated.openapi_client import DefaultApi
+from .generated.openapi_client.configuration import Configuration
 from .swagger_validator import SwaggerValidator
 from .endpoint_resolver import EndpointResolver
 from .client_response import ClientResponse
@@ -54,11 +53,12 @@ class Client:
 
         # the endpoints must not have the body param passed if empty
         if bool(body):
-            endpoint_callback(body=body, **path_params, **query_params, **files)
+            if raw_body:
+                raw_response: HTTPResponse = endpoint_callback(body=body, **path_params, **query_params, **files)
+            else:
+                raw_response: HTTPResponse = endpoint_callback(body, **path_params, **query_params, **files)
         else:
-            endpoint_callback(**path_params, **query_params, **files)
+            raw_response: HTTPResponse = endpoint_callback(**path_params, **query_params, **files)
 
-        raw_response: RESTResponse = self.generated_client.last_response
         response = ClientResponse(raw_response)
-
         return response

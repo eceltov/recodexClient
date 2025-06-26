@@ -2,8 +2,8 @@ import os
 import yaml
 from prance import ResolvingParser
 from .utils import camel_case_to_snake_case
-from .generated.swagger_client import ApiClient
-from .generated.swagger_client.rest import ApiException
+from .generated.openapi_client import ApiClient
+from .generated.openapi_client.rest import ApiException
 from .alias_container import AliasContainer
 
 class EndpointResolver:
@@ -81,6 +81,10 @@ class EndpointResolver:
 
     def get_endpoint_callback(self, presenter: str, handler: str, generated_api: ApiClient):
         operation_id = self.alias_container.get_operation_id(presenter, handler)
+
+        # make the callback return the raw HTTPResponse object
+        operation_id +=  "_without_preload_content"
+
         endpoint_callback = getattr(generated_api, operation_id, None)
         if endpoint_callback == None:
             raise ApiException(500, f"Endpoint {operation_id} not found.")

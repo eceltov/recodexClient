@@ -1,11 +1,10 @@
 import json
 import yaml
 
-from .generated.swagger_client.rest import RESTResponse
+from urllib3.response import HTTPResponse
 
 class ClientResponse():
-    def __init__(self, response: RESTResponse):
-        self.urllib3_response = response.urllib3_response
+    def __init__(self, response: HTTPResponse):
         self.status = response.status
         self.reason = response.reason
         self.data_binary = response.data
