@@ -2,10 +2,10 @@ import os
 from collections.abc import Callable
 import yaml
 from prance import ResolvingParser
-from .helpers.utils import camel_case_to_snake_case
+from ..helpers.utils import camel_case_to_snake_case
 from ..generated.swagger_client import ApiClient
 from ..generated.swagger_client.rest import ApiException
-from .client_components.alias_container import AliasContainer
+from ..client_components.alias_container import AliasContainer
 
 class EndpointResolver:
     """Class that converts endpoint presenter and handler names or their aliases to a callback.
@@ -27,7 +27,7 @@ class EndpointResolver:
     def __get_spec_path(self):
         # the swagger is located in the 'generated' folder
         dirname = os.path.dirname(__file__)
-        return os.path.join(dirname, 'generated/swagger.yaml')
+        return os.path.join(dirname, '../generated/swagger.yaml')
 
     def __load_spec(self):
         filepath = self.__get_spec_path()
