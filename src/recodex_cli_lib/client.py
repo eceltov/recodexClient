@@ -1,4 +1,6 @@
 import json
+from collections.abc import Callable
+
 from .generated.swagger_client import ApiClient
 from .generated.swagger_client import DefaultApi
 from .generated.swagger_client.configuration import Configuration
@@ -7,6 +9,7 @@ from .generated.swagger_client.rest import RESTResponse
 from .swagger_validator import SwaggerValidator
 from .endpoint_resolver import EndpointResolver
 from .client_response import ClientResponse
+from .utils import parse_endpoint_function
 
 class Client:
     def __init__(self, token, host):
@@ -62,3 +65,7 @@ class Client:
         response = ClientResponse(raw_response)
 
         return response
+
+    def send_request_by_callback(self, endpoint: Callable, body={}, path_params={}, query_params={}, files={}, raw_body=False) -> ClientResponse:
+        presenter, handler = parse_endpoint_function(endpoint)
+        self.send_request(presenter, handler, body, path_params, query_params, files, raw_body)
