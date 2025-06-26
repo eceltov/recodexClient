@@ -10,4 +10,5 @@ pyyaml >= 5.2b1
 appdirs >= 1.4.4
 pyjwt >= 2.10.1
 twine >= 6.1.0
-build >= 1.2.2.post1
+build >= 1.2.2
+deepdiff >= 8.5.0
