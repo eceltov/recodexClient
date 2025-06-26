@@ -2,7 +2,7 @@ import appdirs
 from pathlib import Path
 
 from .client import Client
-from .user_context import UserContext
+from .helpers.user_context import UserContext
 
 config_dir = Path(appdirs.user_config_dir("recodex"))
 data_dir = Path(appdirs.user_data_dir("recodex"))

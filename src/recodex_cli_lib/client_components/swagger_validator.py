@@ -6,7 +6,10 @@ import jsonschema
 from jsonschema import validate
 
 class SwaggerValidator:
-    def validate_params(self, endpoint_definition, method, params):
+    """Class used to validate requests against a swagger schema.
+    """
+
+    def __validate_params(self, endpoint_definition, method, params):
         # skip validation if the endpoint does not expect any
         if "parameters" not in endpoint_definition:
             return
@@ -29,7 +32,7 @@ class SwaggerValidator:
             validate(params[param_name], param_def["schema"])
 
     # converts a generated body instance to a dictionary
-    def convert_generated_to_dict(self, generated_body):
+    def __convert_generated_to_dict(self, generated_body):
         # this dict contains the body parameters with a '_' prefix
         raw_dict = generated_body.__dict__
         refined_dict = {}
@@ -40,7 +43,7 @@ class SwaggerValidator:
                 refined_dict[key[1:]] = value
         return refined_dict
 
-    def validate_body(self, endpoint_definition: dict, body):
+    def __validate_body(self, endpoint_definition: dict, body):
         # skip if there is no body definition
         if "requestBody" not in endpoint_definition:
             return
@@ -52,12 +55,22 @@ class SwaggerValidator:
             validate(body, schema)
 
     def validate(self, endpoint_definition: dict, body={}, path_params={}, query_params={}):
-        self.validate_params(endpoint_definition, "path", path_params)
-        self.validate_params(endpoint_definition, "query", query_params)
+        """Validates request parameters.
+
+        Args:
+            endpoint_definition (dict): The parsed swagger schema of the request.
+            body (dict, optional): The body of the request. Can either be a dictionary of a generated model object.
+                Defaults to {}.
+            path_params (dict, optional): A dictionary of path parameter name-value pairs. Defaults to {}.
+            query_params (dict, optional): A dictionary of query parameter name-value pairs. Defaults to {}.
+        """
+
+        self.__validate_params(endpoint_definition, "path", path_params)
+        self.__validate_params(endpoint_definition, "query", query_params)
 
         # convert generated body objects to a dict    
         if type(body) is dict:
             body_dict = body
         else:
-            body_dict = self.convert_generated_to_dict(body)
-        self.validate_body(endpoint_definition, body_dict)
+            body_dict = self.__convert_generated_to_dict(body)
+        self.__validate_body(endpoint_definition, body_dict)

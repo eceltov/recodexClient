@@ -1,9 +1,12 @@
 import json
 import yaml
 
-from .generated.swagger_client.rest import RESTResponse
+from ..generated.swagger_client.rest import RESTResponse
 
 class ClientResponse():
+    """Wrapper object containing the request response.
+    """
+
     def __init__(self, response: RESTResponse):
         self.urllib3_response = response.urllib3_response
         self.status = response.status
@@ -28,6 +31,18 @@ class ClientResponse():
         
 
     def get_json_string(self, minimized: bool = False) -> str:
+        """Returns the response data as a JSON string.
+
+        Args:
+            minimized (bool, optional): Whether the returned string should be a single-line JSON. Defaults to False.
+
+        Raises:
+            Exception: Thrown when the response data could not be parsed.
+
+        Returns:
+            str: Returns the response data as a JSON string.
+        """
+
         if minimized:
             return self.data
         try:
@@ -36,6 +51,17 @@ class ClientResponse():
             raise Exception("The response data is not in JSON format.")
     
     def get_yaml_string(self, minimized: bool = False) -> str:
+        """Returns the response data as a YAML string.
+
+        Args:
+            minimized (bool, optional): Whether the returned string should be a minimized YAML. Defaults to False.
+
+        Raises:
+            Exception: Thrown when the response data could not be parsed.
+
+        Returns:
+            str: Returns the response data as a YAML string.
+        """
         try:
             if minimized:
                 return yaml.dump(self.__get_parsed_data_or_throw(), default_flow_style=True, indent=None, allow_unicode=True)

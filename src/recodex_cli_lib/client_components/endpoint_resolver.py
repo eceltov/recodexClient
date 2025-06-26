@@ -1,12 +1,16 @@
 import os
+from collections.abc import Callable
 import yaml
 from prance import ResolvingParser
-from .utils import camel_case_to_snake_case
-from .generated.swagger_client import ApiClient
-from .generated.swagger_client.rest import ApiException
-from .alias_container import AliasContainer
+from .helpers.utils import camel_case_to_snake_case
+from ..generated.swagger_client import ApiClient
+from ..generated.swagger_client.rest import ApiException
+from .client_components.alias_container import AliasContainer
 
 class EndpointResolver:
+    """Class that converts endpoint presenter and handler names or their aliases to a callback.
+    """
+
     def __init__(self):
         # load aliases.yaml
         self.__load_user_aliases()
@@ -33,7 +37,7 @@ class EndpointResolver:
 
     def __load_user_aliases(self):
         dirname = os.path.dirname(__file__)
-        filepath = os.path.join(dirname, 'aliases.yaml')
+        filepath = os.path.join(dirname, '../aliases.yaml')
         with open(filepath) as file:
             self.user_aliases: dict[str, dict] = yaml.safe_load(file)
 
@@ -79,7 +83,21 @@ class EndpointResolver:
         with open(filepath, "r") as handle:
             return handle.read()
 
-    def get_endpoint_callback(self, presenter: str, handler: str, generated_api: ApiClient):
+    def get_endpoint_callback(self, presenter: str, handler: str, generated_api: ApiClient) -> Callable:
+        """Finds and returns the generated endpoint.
+
+        Args:
+            presenter (str): The name of the presenter or alias.
+            handler (str): The name of the handler or alias.
+            generated_api (ApiClient): The generated ApiClient instance used.
+
+        Raises:
+            ApiException: Thrown when the endpoint was not found.
+
+        Returns:
+            Callable: Returns the generated endpoint callback.
+        """
+
         operation_id = self.alias_container.get_operation_id(presenter, handler)
         endpoint_callback = getattr(generated_api, operation_id, None)
         if endpoint_callback == None:
@@ -87,6 +105,16 @@ class EndpointResolver:
         return endpoint_callback
 
     def get_endpoint_definition(self, presenter: str, handler: str) -> dict:
+        """Returns the schema definition of the endpoint.
+
+        Args:
+            presenter (str): The name of the presenter or alias.
+            handler (str): The name of the handler or alias.
+
+        Returns:
+            dict: A dictionary containing the endpoint schema.
+        """
+
         operation_id = self.alias_container.get_operation_id(presenter, handler)
         return self.definitions[operation_id]
     

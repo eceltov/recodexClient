@@ -8,6 +8,9 @@ from pathlib import Path
 
 
 class UserContext(NamedTuple):
+    """A class that loads, stores and checks whether the user JWT token is expired.
+    """
+
     api_url: Optional[str] = None
     api_token: Optional[str] = None
 

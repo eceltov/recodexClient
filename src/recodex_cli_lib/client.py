@@ -1,22 +1,34 @@
-import json
 from collections.abc import Callable
 
 from .generated.swagger_client import ApiClient
 from .generated.swagger_client import DefaultApi
 from .generated.swagger_client.configuration import Configuration
-from .generated.swagger_client.rest import ApiException
 from .generated.swagger_client.rest import RESTResponse
-from .swagger_validator import SwaggerValidator
-from .endpoint_resolver import EndpointResolver
-from .client_response import ClientResponse
-from .utils import parse_endpoint_function
+from .generated.swagger_client.models.v1_login_body import V1LoginBody
+from .client_components.swagger_validator import SwaggerValidator
+from .client_components.endpoint_resolver import EndpointResolver
+from .client_components.client_response import ClientResponse
+from .helpers.utils import parse_endpoint_function
 
 class Client:
-    def __init__(self, token, host):
+    """A client that can send requests to ReCodEx.
+    Automatically handles request validation based on the current swagger specification file.
+    """
+
+    def __init__(self, token: str, host: str):
+        """
+        Args:
+            token (str): The JWT token used for authentication.
+            host (str): The URL of the ReCodEx server.
+        """
+
+        # initialize generated classes
         config = Configuration()
         config.host = host
         self.generated_client = ApiClient(config, "Authorization", f"Bearer {token}")
         self.generated_api = DefaultApi(self.generated_client)
+
+        # initialize endpoint resolution and validation
         self.endpoint_resolver = EndpointResolver()
         self.validator = SwaggerValidator()
 
@@ -27,26 +39,67 @@ class Client:
             if value == True or value == False:
                 params[key] = str(value).lower()
 
-    def get_login_token(self, username: str, password: str):
-        response = self.send_request("login", "default", {
-            "username": username,
-            "password": password,
-        })
+    def get_login_token(self, username: str, password: str) -> str:
+        """Fetches the JWT token from ReCodEx.
+
+        Args:
+            username (str): The ReCodEx username.
+            password (str): The ReCodEx password.
+
+        Returns:
+            str: Returns the JWT token.
+        """
+
+        response = self.send_request_by_callback(
+            DefaultApi.login_presenter_action_default,
+            V1LoginBody(username, password),
+        )
+
         response_dict = response.get_parsed_data()
+        if response_dict == False:
+            raise Exception("Unable to fetch JWT token with the provided credentials")
+
         return response_dict["payload"]["accessToken"]
 
-    def get_refresh_token(self):
-        response = self.send_request("login", "refresh")
+    def get_refresh_token(self) -> str:
+        """Fetches a new JWT token if the previous did not expire yet.
+
+        Returns:
+            str: Returns the new token.
+        """
+
+        response = self.send_request_by_callback(DefaultApi.login_presenter_action_refresh)
         response_dict = response.get_parsed_data()
+        if response_dict == False:
+            raise Exception("Unable to refresh JWT token")
+
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter: str, handler: str, body={}, path_params={}, query_params={}, files={}, raw_body=False) -> ClientResponse:
+    def send_request(self, presenter: str, handler: str, body={}, path_params={}, query_params={}, files={}, raw_body=False)-> ClientResponse:
+        """Sends a request to a single ReCodEx endpoint.
+        Automatically validates the request parameters.
+
+        Args:
+            presenter (str): The name of the endpoint presenter.
+            handler (str): The name of the endpoint handler.
+            body (dict, optional): The body of the request. Can either be a dictionary of a generated model object.
+                Defaults to {}.
+            path_params (dict, optional): A dictionary of path parameter name-value pairs. Defaults to {}.
+            query_params (dict, optional): A dictionary of query parameter name-value pairs. Defaults to {}.
+            files (dict, optional): A dictionary of name-path pairs of sent files. Defaults to {}.
+            raw_body (bool, optional): Whether the body is sent raw (octet-stream). Defaults to False.
+
+        Returns:
+            ClientResponse: Returns an object detailing the response.
+        """
+
+        # get the request schema
         endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
 
+        # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
         if raw_body:
             self.validator.validate(endpoint_definition, path_params=path_params, query_params=query_params)
         else:
-            # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
             self.validator.validate(endpoint_definition, body, path_params, query_params)
 
         # convert boolean values to strings to avoid urllib errors
@@ -67,5 +120,21 @@ class Client:
         return response
 
     def send_request_by_callback(self, endpoint: Callable, body={}, path_params={}, query_params={}, files={}, raw_body=False) -> ClientResponse:
+        """Sends a request to a single ReCodEx endpoint.
+        Automatically validates the request parameters.
+
+        Args:
+            endpoint (Callable): The generated endpoint function to be called.
+            body (dict, optional): The body of the request. Can either be a dictionary of a generated model object.
+                Defaults to {}.
+            path_params (dict, optional): A dictionary of path parameter name-value pairs. Defaults to {}.
+            query_params (dict, optional): A dictionary of query parameter name-value pairs. Defaults to {}.
+            files (dict, optional): A dictionary of name-path pairs of sent files. Defaults to {}.
+            raw_body (bool, optional): Whether the body is sent raw (octet-stream). Defaults to False.
+
+        Returns:
+            ClientResponse: Returns an object detailing the response.
+        """
+
         presenter, handler = parse_endpoint_function(endpoint)
         self.send_request(presenter, handler, body, path_params, query_params, files, raw_body)

@@ -1,7 +1,7 @@
 import os
 import hashlib
 
-from .client import Client
+from ..client import Client
 
 CHUNK_SIZE = 2 ** 17 # 128 KiB
 

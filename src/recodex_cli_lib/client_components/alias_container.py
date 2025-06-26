@@ -1,4 +1,7 @@
 class AliasContainer:
+    """Class that handles the resolution of presenter and handler aliases defined in aliases.yaml.
+    """
+
     def __init__(self, definitions):
         self.definitions = definitions
         self.__presenter_suffix = '_presenter'
@@ -102,7 +105,20 @@ class AliasContainer:
         # the value has to be the raw handler name
         aliases[alias] = raw_handler_name
 
-    def get_operation_id(self, presenter, handler):
+    def get_operation_id(self, presenter: str, handler: str) -> str:
+        """Returns an ID identifying the endpoint.
+
+        Args:
+            presenter (str): The name of the presenter or alias.
+            handler (str): The name of the handler or alias.
+
+        Raises:
+            RuntimeError: Thrown when the presenter of handler could not be resolved.
+
+        Returns:
+            str: Returns an ID identifying the endpoint.
+        """
+
         raw_presenter_name = self.__get_raw_presenter_name_or_throw(presenter)
         raw_handler_name = self.__get_raw_handler_name_or_throw(presenter, handler)
         return f"{raw_presenter_name}_{raw_handler_name}"
