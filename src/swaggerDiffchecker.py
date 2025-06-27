@@ -2,6 +2,71 @@ import yaml
 import os
 import sys
 from deepdiff import DeepDiff
+from pathlib import Path
+
+class LineStatus:
+    """Class that represents the diff lines of an object or list.
+    Also holds whether the object introduced some changes on any level of nesting.
+    """
+
+    def __init__(self):
+        self.lines: list[list|str] = []
+        self.changed: bool = False
+
+    def merge(self, other: 'LineStatus', set_added: bool = False, set_removed: bool = False):
+        """Adds another diff to this one.
+
+        Args:
+            other (LineStatus): The other diff.
+            set_added (bool, optional): Whether the lines of the other object should be marked as added.
+                Defaults to False.
+            set_removed (bool, optional): Whether the lines of the other object should be marked as removed.
+                Defaults to False.
+        """
+
+        if set_added:
+            self.__set_line_changed(other.lines, "+")
+        if set_removed:
+            self.__set_line_changed(other.lines, "-")
+        self.lines.append(other.lines)
+        self.changed = self.changed or other.changed
+
+    def print(self):
+        """Prints the lines to stdout.
+        """
+
+        self.__print(self.lines)
+
+    def __print(self, lines: list[list|str]):
+        for line in lines:
+            if isinstance(line, str):
+                print(line)
+            else:
+                self.__print(line)
+
+    def get_print_lines(self):
+        """Returns a single-level list of lines ready for printing.
+        """
+
+        print_lines = []
+        self.__get_print_lines(self.lines, print_lines)
+        return print_lines
+
+    def __get_print_lines(self, lines: list[list|str], print_lines: list[str]):
+        for line in lines:
+            if isinstance(line, str):
+                print_lines.append(line)
+            else:
+                self.__get_print_lines(line, print_lines)
+
+    def __set_line_changed(self, lines: list, diff_char: str):
+        for i in range(len(lines)):
+            if isinstance(lines[i], str):
+                chars = list(lines[i])
+                chars[0] = diff_char
+                lines[i] = "".join(chars)
+            else:
+                self.__set_line_changed(lines[i], diff_char)
 
 def read_swagger(path: str):
     if not os.path.exists(path):
@@ -74,14 +139,16 @@ def split_lists(old_list: list, new_list: list):
 
     return (removed, added, kept)
 
-def print_indented_kept(line: str, indentation: int):
-    print(" " * (indentation + 2) + line)
+def print_indented_kept(line: str, indentation: int, diff: LineStatus):
+    diff.lines.append(" " * (indentation + 2) + line)
 
-def print_indented_added(line: str, indentation: int):
-    print("+" + " " * (indentation + 1) + line)
+def print_indented_added(line: str, indentation: int, diff: LineStatus):
+    diff.lines.append("+" + " " * (indentation + 1) + line)
+    diff.changed = True
 
-def print_indented_removed(line: str, indentation: int):
-    print("-" + " " * (indentation + 1) + line)
+def print_indented_removed(line: str, indentation: int, diff: LineStatus):
+    diff.lines.append("-" + " " * (indentation + 1) + line)
+    diff.changed = True
 
 def get_param(params: list[dict], name: str):
     for param in params:
@@ -89,82 +156,164 @@ def get_param(params: list[dict], name: str):
             return param
     raise Exception(f"Parameter '{name}' not found")
 
-def to_yaml_diff(label: str, old_obj: dict|list, new_obj: dict|list, indentation: int):
+def to_yaml_diff(label: str, old_obj: dict|list, new_obj: dict|list, indentation: int) -> LineStatus:
+    diff = LineStatus()
+    added = False
+    removed = False
+
     # print the key under which the object is listed
     if bool(old_obj) and bool(new_obj):
-        print_indented_kept(f"{label}:", indentation - 2)
+        print_indented_kept(f"{label}:", indentation - 2, diff)
     elif not bool(old_obj):
-        print_indented_added(f"{label}:", indentation - 2)
+        print_indented_added(f"{label}:", indentation - 2, diff)
+        added = True
     else:
-        print_indented_removed(f"{label}:", indentation - 2)
+        print_indented_removed(f"{label}:", indentation - 2, diff)
+        removed = True
 
     # check whether the objects are lists of dicts
     if isinstance(old_obj, list) or isinstance(new_obj, list):
         if not (isinstance(old_obj, list) and isinstance(new_obj, list)):
             raise Exception("Both parameters have to either be lists, or dicts")
-        handle_lists(label, old_obj, new_obj, indentation)
+        nested_diff = handle_lists(label, old_obj, new_obj, indentation)
     else:
-        handle_dicts(old_obj, new_obj, indentation)
+        nested_diff = handle_dicts(old_obj, new_obj, indentation)
 
-def handle_lists(label: str, old_list: list, new_list: list, indentation: int):
+    if (not nested_diff.changed) and ((not added) and (not removed)):
+        print_indented_kept(f"...", indentation, diff)
+    else:
+        diff.merge(nested_diff, set_added=added, set_removed=removed)
+
+    return diff
+
+def handle_lists(label: str, old_list: list, new_list: list, indentation: int) -> LineStatus:
+    diff = LineStatus()
+
+    # special case for parameters - a list of objects
     if label == "parameters":
         param_stats = split_parameters(old_list, new_list)
         for param in old_list:
+            # parameters have a name
             name = param["name"]
             status = param_stats[name]
             if status == "kept":
-                print_indented_kept("-", indentation - 2)
-                handle_dicts(param, get_param(new_list, name), indentation)
+                nested_diff = handle_dicts(param, get_param(new_list, name), indentation)
+                # only print out parameters that have changes
+                if nested_diff.changed:
+                    print_indented_kept("-", indentation - 2, diff)
+                    diff.merge(nested_diff)
             elif status == "removed":
-                print_indented_removed("-", indentation - 2)
-                handle_dicts(param, {}, indentation)
+                print_indented_removed("-", indentation - 2, diff)
+                diff.merge(handle_dicts(param, {}, indentation))
         for param in new_list:
             name = param["name"]
             status = param_stats[name]
             if status == "added":
-                print_indented_added("-", indentation - 2)
-                handle_dicts({}, param, indentation)
+                print_indented_added("-", indentation - 2, diff)
+                diff.merge(handle_dicts({}, param, indentation))
+    # handle general lists
     else:
         removed, added, kept = split_lists(old_list, new_list)
-        for value in kept:
-            print_indented_kept("-", indentation - 2)
-            print_indented_kept(value, indentation)
-        for value in removed:
-            print_indented_removed("-", indentation - 2)
-            print_indented_removed(value, indentation)
-        for value in added:
-            print_indented_added("-", indentation - 2)
-            print_indented_added(value, indentation)
+        # print <empty list> if the list is empty
+        if len(removed) == 0 and len(added) == 0 and len(kept) == 0:
+            print_indented_kept("<empty list>", indentation, diff)
 
-def handle_dicts(old_dict: dict, new_dict: dict, indentation: int):
+        for value in kept:
+            print_indented_kept("-", indentation - 2, diff)
+            print_indented_kept(value, indentation, diff)
+        for value in removed:
+            print_indented_removed("-", indentation - 2, diff)
+            print_indented_removed(value, indentation, diff)
+        for value in added:
+            print_indented_added("-", indentation - 2, diff)
+            print_indented_added(value, indentation, diff)
+
+    return diff
+
+def handle_dicts(old_dict: dict, new_dict: dict, indentation: int) -> LineStatus:
+    diff = LineStatus()
+
+    # split keys into literal and nested object keys
     old_literals, old_objects = split_dict(old_dict)
     new_literals, new_objects = split_dict(new_dict)
 
+    # print an <empty object> string if there are no keys
+    if len(old_literals) == 0 and len(old_objects) == 0 and len(new_literals) == 0 and len(new_objects) == 0:
+        print_indented_kept("<empty object>", indentation, diff)
+
+    # categorize literal keys by their changed status
     key_stats = split_keys(old_literals, new_literals, old_dict, new_dict)
+    # kept literals and objects will be replaced by a single ellipsis
+    some_kept = False
     for key, status in key_stats.items():
         if status == "kept":
-            print_indented_kept(f"{key}: {old_dict[key]}", indentation)
-        elif status == "removed":
-            print_indented_removed(f"{key}: {old_dict[key]}", indentation)
+            # special case for parameters in lists, make the object identifiable by name
+            if key == "name" or key == "operationId":
+                print_indented_kept(f"{key}: {old_dict[key]}", indentation, diff)
+            # replace kept parameters with an ellipsis
+            elif not some_kept:
+                print_indented_kept(f"...", indentation, diff)
+                some_kept = True
+    for key, status in key_stats.items():
+        if status == "removed":
+            print_indented_removed(f"{key}: {old_dict[key]}", indentation, diff)
         elif status == "added":
-            print_indented_added(f"{key}: {new_dict[key]}", indentation)
-        else:
-            print_indented_removed(f"{key}: {old_dict[key]}", indentation)
-            print_indented_added(f"{key}: {new_dict[key]}", indentation)
+            print_indented_added(f"{key}: {new_dict[key]}", indentation, diff)
+        elif status == "modified":
+            print_indented_removed(f"{key}: {old_dict[key]}", indentation, diff)
+            print_indented_added(f"{key}: {new_dict[key]}", indentation, diff)
 
+    # categorize object keys by their changed status
     obj_stats = split_keys(old_objects, new_objects, old_dict, new_dict)
     for key, status in obj_stats.items():
-        # the status will be modified due to object comparison
-        if status == "removed" or status == "modified" or status == "kept":
+        if status == "kept":
             if isinstance(old_dict[key], dict):
-                to_yaml_diff(key, old_dict[key], new_dict.get(key, {}), indentation + 2)
+                nested_diff = to_yaml_diff(key, old_dict[key], new_dict.get(key, {}), indentation + 2)
             else:
-                to_yaml_diff(key, old_dict[key], new_dict.get(key, []), indentation + 2)
+                nested_diff = to_yaml_diff(key, old_dict[key], new_dict.get(key, []), indentation + 2)
+
+            # if the nested object holds no changes, replace it with an ellipsis
+            if not nested_diff.changed:
+                if not some_kept:
+                    print_indented_kept(f"...", indentation, diff)
+                    some_kept = True
+            else:
+                diff.merge(nested_diff)
+        elif status == "removed" or status == "modified":
+            if isinstance(old_dict[key], dict):
+                diff.merge(to_yaml_diff(key, old_dict[key], new_dict.get(key, {}), indentation + 2))
+            else:
+                diff.merge(to_yaml_diff(key, old_dict[key], new_dict.get(key, []), indentation + 2))
         else:
             if isinstance(new_dict[key], dict):
-                to_yaml_diff(key, {}, new_dict[key], indentation + 2)
+                diff.merge(to_yaml_diff(key, {}, new_dict[key], indentation + 2))
             else:
-                to_yaml_diff(key, [], new_dict[key], indentation + 2)
+                diff.merge(to_yaml_diff(key, [], new_dict[key], indentation + 2))
+
+    return diff
+
+def new_changes(old_swagger: dict, new_swagger: dict) -> bool:
+    """Returns whether there are some changes in the swaggers.
+    """
+
+    return len(find_different_paths(old_swagger, new_swagger)) > 0
+
+def get_diff_lines(old_swagger: dict, new_swagger: dict) -> list[str]:
+    """Returns a list of lines representing the diff in markdown format
+    """
+
+    lines = []
+    paths = find_different_paths(old_swagger, new_swagger)
+    for path in paths:
+        lines.append("```diff")
+        diff = to_yaml_diff(path, old_swagger["paths"].get(path, {}), new_swagger["paths"].get(path, {}), 0)
+        lines += diff.get_print_lines()
+        lines.append("```")
+
+    for i in range(len(lines)):
+        lines[i] += "\n"
+
+    return lines
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -172,16 +321,22 @@ if __name__ == "__main__":
 
     old_swagger = read_swagger(sys.argv[1])
     new_swagger = read_swagger(sys.argv[2])
-    
-    # paths = find_different_paths(old_swagger, new_swagger)
-    # for path in paths:
-    #     print("```diff")
-    #     to_yaml_diff(path, old_swagger["paths"].get(path, {}), new_swagger["paths"].get(path, {}), 0)
-    #     print("```")
+    # check if the swaggers changed
+    if new_changes(old_swagger, new_swagger):
+        readme_path = Path(__file__).parent.parent.joinpath("README.md")
+        # find the API changes line in the README
+        with open(readme_path, "r") as file:
+            lines: list[str] = file.readlines()
+            if len(lines) == 0:
+                raise Exception("The README is empty")
 
-    count = 0
-    for key, path in new_swagger["paths"].items():
-        for method, schema in path.items():
-            count += 1
+            for i in range(len(lines)):
+                if lines[i].find("## Latest API Endpoint Changes") != -1:
+                    break
+                
+            lines = lines[:i + 1]
 
-    print(count)
+        # replace the API changes in the README
+        with open(readme_path, "w") as file:
+            lines += get_diff_lines(old_swagger, new_swagger)
+            file.writelines(lines)

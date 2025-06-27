@@ -19,8 +19,7 @@ fi
 
 echo "Updating README"
 ./venv/bin/activate
-python3 src/readmeChangesCleaner.py
-python3 src/swaggerDiffchecker.py $oldSwaggerDocsPath $recodexSwaggerDocsPath >> README.md
+python3 src/swaggerDiffchecker.py $oldSwaggerDocsPath $recodexSwaggerDocsPath
 
 echo "Removing old generated code"
 rm -r $generatedPath
