@@ -137,4 +137,4 @@ class Client:
         """
 
         presenter, handler = parse_endpoint_function(endpoint)
-        self.send_request(presenter, handler, body, path_params, query_params, files, raw_body)
+        return self.send_request(presenter, handler, body, path_params, query_params, files, raw_body)
