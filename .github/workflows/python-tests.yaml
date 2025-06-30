@@ -19,7 +19,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '21' # You can change this to '8', '11', '21', etc.
+          java-version: '11'
           distribution: 'temurin'
 
       - name: Set up Python
