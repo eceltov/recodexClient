@@ -1,52 +1,15 @@
 import unittest
 from multiprocessing import Process
 import time
-from flask import Flask, request, jsonify
-import jwt
 import time
 
 from recodex_cli_lib.client_factory import get_client
-
-app = Flask(__name__)
-import logging
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
-
-@app.route('/v1/login', methods=['POST'])
-def get_data():
-    received_data = request.get_json()
-    token = jwt.encode(
-        {
-            "test": "value",
-            "iat": time.time(),
-            "exp": time.time() + 10000,
-            "username": received_data["username"],
-            "password": received_data["password"],
-        },
-        "key",
-    )
-    print(token)
-    return jsonify({"payload": {"accessToken": token}}), 200
-
-
-@app.route('/v1/groups', methods=['GET'])
-def get_group():
-    return jsonify(
-        {
-            "success": True,
-            "code": 200,    
-            "payload": [    
-                {
-                "id": "10000000-2000-4000-8000-160000000000",
-                }
-            ]
-        }
-    ), 200
+from .mock_server import create_app
 
 class TestMyModuleWithFlaskServer(unittest.TestCase):
     PORT = 8081
     SERVER_URL = f"http://localhost:{PORT}"
-    flask_app = app # use the global server handle
+    flask_app = create_app() # use the global server handle
 
     @classmethod
     def setUpClass(cls):
