@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from ..utils.successWrapper import wrap
+from ..utils.success_wrapper import wrap
 from ..utils import constants
 
 api_bp = Blueprint('files', __name__)
