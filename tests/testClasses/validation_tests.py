@@ -43,7 +43,7 @@ class ValidationTests(TestClassBase):
                 "groups": [
                     "string"
                 ],
-                "locale": "en",
+                "locale": "euuuuuuun",
                 "ignoreNameCollision": True
             },
         ).get_parsed_data()
