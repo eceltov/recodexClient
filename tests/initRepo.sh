@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# path to swagger-codegen (https://github.com/swagger-api/swagger-codegen/tree/3.0.0)
-swaggerCodegenPath=./swagger-codegen
+# path to swagger-codegen
+swaggerCodegenPath=./swagger-codegen-cli-3.0.9.jar
 
 # path to the new swagger specification file from the ReCodEx api repository
 recodexSwaggerDocsPath=./tests/swagger.yaml
@@ -10,14 +10,13 @@ recodexSwaggerDocsPath=./tests/swagger.yaml
 generatedPath=./src/recodex_cli_lib/generated
 
 # donwload swagger-codegen
-git clone https://github.com/swagger-api/swagger-codegen.git
-git checkout fd6f4216bffaf437978855707a30702a4661a5a3
+wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.9/swagger-codegen-cli-3.0.9.jar
 
 echo "Removing old generated code"
 rm -r $generatedPath
 
 echo "Generating new client code"
-java -jar "$swaggerCodegenPath/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar" generate \
+java -jar "$swaggerCodegenPath" generate \
    -i $recodexSwaggerDocsPath \
    -l python \
    -o $generatedPath
