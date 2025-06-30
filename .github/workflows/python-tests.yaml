@@ -30,6 +30,7 @@ jobs:
       # Step 3: Install dependencies
       - name: Generate code and install dependencies
         run: |
+          chmod +x ./tests/initRepo.sh
           ./tests/initRepo.sh
           python3 -m pip install --upgrade pip
           python3 -m pip install -r requirements.txt
