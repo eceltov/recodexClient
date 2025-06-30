@@ -1,28 +1,40 @@
 #!/bin/bash
 
+# This script will regenerate the generated code based on a new swagger.yaml.
+# It expects the swagger-codegen repo is already set up, and will initialize a python venv
+# environment to run a script to replace the changelog in the README.
+
 # path to swagger-codegen (https://github.com/swagger-api/swagger-codegen/tree/3.0.0)
 swaggerCodegenPath=./swagger-codegen
 
-# path to the new swagger specification file from the ReCodEx api repository
-recodexSwaggerDocsPath=./tests/swagger.yaml
+# path to the new swagger specification file in the ReCodEx api repository
+# CHANGE THIS IN CASE THE PATH TO RECODEX API DIFFERS
+recodexSwaggerDocsPath=../api/docs/swagger.yaml
 
 # path to the generated code
 generatedPath=./src/recodex_cli_lib/generated
 
-# donwload swagger-codegen
-git clone https://github.com/swagger-api/swagger-codegen.git
-cd $swaggerCodegenPath
-git checkout fd6f4216b
-echo "Installing swagger-codegen"
-mvn clean package > /dev/null
-cd ..
+# path to the old swagger
+oldSwaggerDocsPath=./src/recodex_cli_lib/generated/swagger.yaml
+
+if ! test -d ./venv; then
+   echo "Initializing Python venv"
+   python3.11 -m venv venv
+   ./venv/bin/pip install -r requirements.txt
+fi
+
+echo "Updating README"
+./venv/bin/activate
+python3 src/swaggerDiffchecker.py $oldSwaggerDocsPath $recodexSwaggerDocsPath
+
+echo "Removing old generated code"
+rm -r $generatedPath
 
 echo "Generating new client code"
 java -jar "$swaggerCodegenPath/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar" generate \
    -i $recodexSwaggerDocsPath \
    -l python \
-   -o $generatedPath \
-   > /dev/null
+   -o $generatedPath
 
 # copy the swagger spec
 cp $recodexSwaggerDocsPath "$generatedPath/swagger.yaml"

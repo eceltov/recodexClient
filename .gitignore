@@ -3,3 +3,4 @@ src/recodex_cli_lib/generated
 __pycache__
 dist
 *.egg-info
+swagger-codegen
