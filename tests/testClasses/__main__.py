@@ -9,7 +9,7 @@ suite = unittest.TestSuite()
 
 # add all test classes here
 suite.addTests(loader.loadTestsFromTestCase(RequestTests))
-suite.addTests(loader.loadTestsFromTestCase(ValidationTests)) # Add other test classes here
+suite.addTests(loader.loadTestsFromTestCase(ValidationTests))
 
 # run the tests
 runner = unittest.TextTestRunner(verbosity=2)
