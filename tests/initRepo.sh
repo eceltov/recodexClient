@@ -11,6 +11,7 @@ generatedPath=./src/recodex_cli_lib/generated
 
 # donwload swagger-codegen
 git clone https://github.com/swagger-api/swagger-codegen.git
+git checkout fd6f4216bffaf437978855707a30702a4661a5a3
 
 echo "Removing old generated code"
 rm -r $generatedPath
