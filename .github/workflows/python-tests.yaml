@@ -37,4 +37,4 @@ jobs:
           python3 -m pip install -e .
 
       - name: Run Python tests
-        run: python3 -m tests.tester
+        run: python3 -m tests.testClasses

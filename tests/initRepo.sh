@@ -17,9 +17,6 @@ echo "Installing swagger-codegen"
 mvn clean package > /dev/null
 cd ..
 
-echo "Removing old generated code"
-rm -r $generatedPath
-
 echo "Generating new client code"
 java -jar "$swaggerCodegenPath/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar" generate \
    -i $recodexSwaggerDocsPath \
