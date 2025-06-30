@@ -13,7 +13,7 @@ generatedPath=./src/recodex_cli_lib/generated
 git clone https://github.com/swagger-api/swagger-codegen.git
 cd $swaggerCodegenPath
 git checkout fd6f4216b
-mvn clean package
+mvn clean package > /dev/null
 cd ..
 
 echo "Removing old generated code"
@@ -23,7 +23,8 @@ echo "Generating new client code"
 java -jar "$swaggerCodegenPath/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar" generate \
    -i $recodexSwaggerDocsPath \
    -l python \
-   -o $generatedPath
+   -o $generatedPath \
+   > /dev/null
 
 # copy the swagger spec
 cp $recodexSwaggerDocsPath "$generatedPath/swagger.yaml"
