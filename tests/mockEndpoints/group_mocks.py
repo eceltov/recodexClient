@@ -1,17 +1,13 @@
 from flask import Blueprint, jsonify, request
+from ..utils.successWrapper import wrap
+from ..utils import constants
 
 api_bp = Blueprint('groups', __name__)
 
 @api_bp.route('/v1/groups', methods=['GET'])
 def get_group():
-    return jsonify(
+    return jsonify(wrap([
         {
-            "success": True,
-            "code": 200,    
-            "payload": [    
-                {
-                "id": "10000000-2000-4000-8000-160000000000",
-                }
-            ]
+            "id": constants.uuid,
         }
-    ), 200
+    ])), 200

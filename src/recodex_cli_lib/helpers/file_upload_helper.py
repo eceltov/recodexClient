@@ -20,7 +20,7 @@ def upload(client: Client, filepath: str, verbose: bool = False) -> str:
         str: Returns the File ID of the uploaded file.
     """
     filename = os.path.basename(filepath)
-    with open(filename, "rb") as file:
+    with open(filepath, "rb") as file:
         content = file.read()
         byte_count = len(content)
     __print_if_verbose("Read file", verbose)

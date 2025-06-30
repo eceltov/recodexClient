@@ -5,7 +5,7 @@ import jwt
 api_bp = Blueprint('login', __name__)
 
 @api_bp.route('/v1/login', methods=['POST'])
-def get_data():
+def login():
     token = jwt.encode(
         {
             "test": "value",
