@@ -13,6 +13,7 @@ generatedPath=./src/recodex_cli_lib/generated
 git clone https://github.com/swagger-api/swagger-codegen.git
 cd $swaggerCodegenPath
 git checkout fd6f4216b
+mvn clean package
 cd ..
 
 echo "Removing old generated code"
