@@ -28,6 +28,18 @@ def preprocess_raw_input_data(
         handler: str,
         endpoint_resolver
     ) -> tuple[dict, dict]:
+    """Refines raw string values of path and query parameters based on a schema.
+
+    Args:
+        path_params (dict): Path parameters.
+        query_params (dict): Query parameters.
+        presenter (str): Endpoint presenter.
+        handler (str): Endpoint handler.
+        endpoint_resolver (_type_): Endpoint resolver used by the client.
+
+    Returns:
+        tuple[dict, dict]: Returns preprocessed path and query parameters.
+    """
 
     processed_path_params = __parse_input_values(path_params, presenter, handler, endpoint_resolver.get_path_param)
     processed_query_params = __parse_input_values(query_params, presenter, handler, endpoint_resolver.get_query_param)
@@ -36,13 +48,16 @@ def preprocess_raw_input_data(
 def __parse_input_values(params: dict, presenter: str, handler: str, param_definition_callback: Callable) -> dict:
     processed_params = {}
     for key, value in params.items():
+        # get parameter schema
         param_definition = param_definition_callback(presenter, handler, key)
+        # by default, the new value will be the same
         processed_params[key] = value
 
         # skip undefined parameters or parameters that are not stringified
         if param_definition == None or (not isinstance(value, str)):
             continue
 
+        # parse value based on type
         type = param_definition['schema']['type']
         if type == "boolean":
             if value.lower() == 'true':
