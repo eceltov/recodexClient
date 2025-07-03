@@ -22,6 +22,11 @@ def get_client(api_url: str, username: str, password: str, verbose=False) -> Cli
         Client: Returns a client object.
     """
 
+    # remove whitespace
+    api_url = api_url.strip()
+    username = username.strip()
+    password = password.strip()
+
     if not context_path.exists():
         user_context = __create_user_context(api_url, username, password, verbose)
     else:

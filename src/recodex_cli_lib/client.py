@@ -9,6 +9,7 @@ from .client_components.swagger_validator import SwaggerValidator
 from .client_components.endpoint_resolver import EndpointResolver
 from .client_components.client_response import ClientResponse
 from .helpers.utils import parse_endpoint_function
+from .helpers.utils import preprocess_raw_input_data
 
 class Client:
     """A client that can send requests to ReCodEx.
@@ -75,7 +76,7 @@ class Client:
 
         return response_dict["payload"]["accessToken"]
 
-    def send_request(self, presenter: str, handler: str, body={}, path_params={}, query_params={}, files={}, raw_body=False)-> ClientResponse:
+    def send_request(self, presenter: str, handler: str, body={}, path_params={}, query_params={}, files={}, raw_body=False) -> ClientResponse:
         """Sends a request to a single ReCodEx endpoint.
         Automatically validates the request parameters.
 
@@ -95,6 +96,9 @@ class Client:
 
         # get the request schema
         endpoint_definition = self.endpoint_resolver.get_endpoint_definition(presenter, handler)
+
+        # in case the values are in string format, convert them to the correct types
+        path_params, query_params = preprocess_raw_input_data(path_params, query_params, presenter, handler, self.endpoint_resolver)
 
         # validate the request (throws jsonschema.exceptions.ValidationError when invalid)
         if raw_body:

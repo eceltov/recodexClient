@@ -3,7 +3,7 @@ from collections.abc import Callable
 import yaml
 from prance import ResolvingParser
 from ..helpers.utils import camel_case_to_snake_case
-from ..generated.swagger_client import ApiClient
+from ..generated.swagger_client import DefaultApi
 from ..generated.swagger_client.rest import ApiException
 from ..client_components.alias_container import AliasContainer
 
@@ -83,13 +83,13 @@ class EndpointResolver:
         with open(filepath, "r") as handle:
             return handle.read()
 
-    def get_endpoint_callback(self, presenter: str, handler: str, generated_api: ApiClient) -> Callable:
+    def get_endpoint_callback(self, presenter: str, handler: str, generated_api: DefaultApi) -> Callable:
         """Finds and returns the generated endpoint.
 
         Args:
             presenter (str): The name of the presenter or alias.
             handler (str): The name of the handler or alias.
-            generated_api (ApiClient): The generated ApiClient instance used.
+            generated_api (DefaultApi): The generated DefaultApi instance used.
 
         Raises:
             ApiException: Thrown when the endpoint was not found.
@@ -167,6 +167,23 @@ class EndpointResolver:
             list[dict]: Returns a list of endpoint path parameters.
         """
         return self.get_endpoint_params(presenter, handler, 'path')
+    
+    def get_path_param(self, presenter: str, handler: str, param_name: str) -> dict|None:
+        """Returns a specific endpoint path parameter or None if not found.
+
+        Args:
+            presenter (str): ReCodEx presenter or alias.
+            handler (str): ReCodEx handler or alias.
+            param_name (str): Name of a path parameter.
+
+        Returns:
+            Returns a specific endpoint path parameter or None if not found.
+        """
+        path_params = self.get_path_params(presenter, handler)
+        for path_param in path_params:
+            if path_param["name"] == param_name or path_param["python_name"] == param_name:
+                return path_param
+        return None
     
     def get_query_params(self, presenter: str, handler: str) -> list[dict]:
         """Returns a list of endpoint query parameters.
